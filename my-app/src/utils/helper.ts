@@ -57,12 +57,17 @@ export async function createCompany(
 
 export async function verifyCompanyLogin(email: string, password: string) {
   const company = await getCompanyByEmail(email)
+
+  if (!company.rowCount) {
+    return false
+  }
+
   const match = await bcrypt.compare(
     String(password),
     String(company.rows[0].password)
   )
 
-  return !company.rowCount || !match ? false : company.rows[0]
+  return !match ? false : company.rows[0]
 }
 
 export function createToken(companyId: number) {
@@ -114,11 +119,40 @@ export async function deleteEmployee(id: number) {
   return await db.query('DELETE FROM employees WHERE id = $1', [id])
 }
 
-export async function getAllLeadsByCompanyId(companyId: number) {
-  return await db.query(
-    'SELECT leads.* FROM leads JOIN employees ON leads.employeeId = employees.id WHERE employees.companyId = $1',
-    [companyId]
-  )
+export async function getAllLeadsByCompanyId(
+  companyId: number,
+  startDate: string | null,
+  endDate: string | null,
+  location: string | null
+) {
+  let query =
+    'SELECT leads.* FROM leads JOIN employees ON leads.employeeId = employees.id WHERE employees.companyId = $1'
+
+  const params: (string | number | null)[] = [companyId]
+  let paramIndex = 2
+
+  if (startDate) {
+    query += ` AND leads.created_at >= $${paramIndex}`
+    params.push(startDate)
+    paramIndex++
+  } else {
+    query += " AND leads.created_at >= '1970-01-01'"
+  }
+
+  if (endDate) {
+    query += ` AND leads.created_at <= $${paramIndex}`
+    params.push(endDate)
+    paramIndex++
+  } else {
+    query += ' AND leads.created_at <= NOW()'
+  }
+
+  if (location) {
+    query += ` AND leads.location = $${paramIndex}`
+    params.push(location)
+  }
+
+  return await db.query(query, params)
 }
 
 export async function createLead(
@@ -205,4 +239,8 @@ export async function updateLead(
 
 export async function deleteLead(id: number) {
   return await db.query('DELETE FROM leads WHERE id = $1', [id])
+}
+
+export async function getAllCompanies() {
+  return await db.query('SELECT * FROM companies')
 }

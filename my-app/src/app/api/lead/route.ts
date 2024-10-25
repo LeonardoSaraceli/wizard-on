@@ -19,15 +19,23 @@ export async function GET(req: NextRequest) {
 
   try {
     const { searchParams } = new URL(req.url)
-    const companyId = searchParams.get('companyId')
+    const companyId = tokenCheck.payload.id
+    const startDate = searchParams.get('startDate')
+    const endDate = searchParams.get('endDate')
+    const location = searchParams.get('location')
 
-    const company = await getCompanyById(Number(companyId))
+    const company = await getCompanyById(companyId)
 
     if (!company.rowCount) {
       return clientErrorHandler('Company not found', 404)
     }
 
-    const leads = await getAllLeadsByCompanyId(Number(companyId))
+    const leads = await getAllLeadsByCompanyId(
+      companyId,
+      startDate,
+      endDate,
+      location
+    )
 
     return new Response(JSON.stringify({ leads: leads.rows }), {
       headers: { 'Content-Type': 'application/json' },

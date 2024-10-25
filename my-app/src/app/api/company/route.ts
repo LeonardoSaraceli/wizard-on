@@ -1,10 +1,13 @@
-import { db } from '@/lib/db'
-import { omitPassword, serverErrorHandler } from '@/utils/helper'
+import {
+  getAllCompanies,
+  omitPassword,
+  serverErrorHandler,
+} from '@/utils/helper'
 
 export async function GET() {
   try {
-    const companies = (await db.query('SELECT * FROM companies')).rows
-    const companiesWithoutPassword = omitPassword(companies)
+    const companies = await getAllCompanies()
+    const companiesWithoutPassword = omitPassword(companies.rows)
 
     return new Response(
       JSON.stringify({ companies: companiesWithoutPassword }),
