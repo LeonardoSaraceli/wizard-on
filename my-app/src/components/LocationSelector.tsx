@@ -6,12 +6,16 @@ interface LocationSelectorProps {
   cities: string[]
   setLocation: (location: string) => void
   setOpenLocationSelector: (open: boolean) => void
+  top: number
+  right: number
 }
 
 export default function LocationSelector({
   cities,
   setLocation,
   setOpenLocationSelector,
+  top,
+  right,
 }: LocationSelectorProps) {
   const [search, setSearch] = useState('')
 
@@ -20,7 +24,12 @@ export default function LocationSelector({
   )
 
   return (
-    <div className={style.locationSelector}>
+    <div
+      className={style.locationSelector}
+      style={
+        top && right ? { top: `${top}rem`, right: `${right}rem` } : undefined
+      }
+    >
       <div className={style.locationSelectorDiv}>
         <FaMagnifyingGlass className={style.inputSvg} />
 

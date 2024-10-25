@@ -78,10 +78,19 @@ export async function getEmployeeByCpf(cpf: string) {
   return await db.query('SELECT * FROM employees WHERE cpf = $1', [cpf])
 }
 
-export async function getAllEmployeesByCompanyId(companyId: number) {
-  return await db.query('SELECT * FROM employees WHERE companyId = $1', [
-    companyId,
-  ])
+export async function getAllEmployeesByCompanyId(
+  companyId: number,
+  orderBy: string
+) {
+  let query = 'SELECT * FROM employees WHERE companyId = $1'
+
+  if (orderBy) {
+    query += ` ORDER BY name ${orderBy}`
+  }
+
+  console.log(query)
+
+  return await db.query(query, [companyId])
 }
 
 export async function createEmployee(
@@ -243,4 +252,46 @@ export async function deleteLead(id: number) {
 
 export async function getAllCompanies() {
   return await db.query('SELECT * FROM companies')
+}
+
+export async function getEmployeeLeads(
+  employeeId: number,
+  startDate: string | null,
+  endDate: string | null,
+  location: string | null,
+  enroll: string | null
+) {
+  let query = 'SELECT * FROM leads WHERE employeeId = $1'
+
+  const params: (string | number | null)[] = [employeeId]
+  let paramIndex = 2
+
+  if (startDate) {
+    query += ` AND leads.created_at >= $${paramIndex}`
+    params.push(startDate)
+    paramIndex++
+  } else {
+    query += " AND leads.created_at >= '1970-01-01'"
+  }
+
+  if (endDate) {
+    query += ` AND leads.created_at <= $${paramIndex}`
+    params.push(endDate)
+    paramIndex++
+  } else {
+    query += ' AND leads.created_at <= NOW()'
+  }
+
+  if (location) {
+    query += ` AND leads.location = $${paramIndex}`
+    params.push(location)
+    paramIndex++
+  }
+
+  if (enroll) {
+    query += ` AND leads.enroll = $${paramIndex}`
+    params.push(enroll)
+  }
+
+  return (await db.query(query, params)).rows
 }

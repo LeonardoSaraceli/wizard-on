@@ -8,6 +8,8 @@ interface DateSelectorProps {
   date: Date
   setOpenDateSelector: (open: boolean) => void
   setDateText: (text: string) => void
+  top: number
+  setQuery: (query: any) => void
 }
 
 export default function DateSelector({
@@ -17,6 +19,8 @@ export default function DateSelector({
   date,
   setOpenDateSelector,
   setDateText,
+  top,
+  setQuery,
 }: DateSelectorProps) {
   const yesterday = new Date(date)
   yesterday.setDate(date.getDate() - 1)
@@ -27,83 +31,112 @@ export default function DateSelector({
   startOfWeek.setDate(date.getDate() - distanceToMonday)
 
   return (
-    <div className={style.selectDate}>
+    <div
+      className={style.selectDate}
+      style={top ? { top: `${top}rem` } : undefined}
+    >
       <ul className={style.selectDateUl}>
         <li
-          onClick={() => [
-            (startDate.day = date.getDate()),
-            (startDate.month = date.getMonth() + 1),
-            (startDate.year = date.getFullYear()),
-            (endDate.day = date.getDate() + 1),
-            (endDate.month = date.getMonth() + 1),
-            (endDate.year = date.getFullYear()),
-            setDateText('Hoje'),
-            setOpenDateSelector(false),
-          ]}
+          onClick={() => {
+            const newStartDate = {
+              day: date.getDate(),
+              month: date.getMonth() + 1,
+              year: date.getFullYear(),
+            }
+            const newEndDate = {
+              day: date.getDate() + 1,
+              month: date.getMonth() + 1,
+              year: date.getFullYear(),
+            }
+
+            setQuery({ startDate: newStartDate, endDate: newEndDate })
+            setDateText('Hoje')
+            setOpenDateSelector(false)
+          }}
           className={style.selectDateLi}
         >
           <span>Hoje</span>
         </li>
 
         <li
-          onClick={() => [
-            (startDate.day = yesterday.getDate()),
-            (startDate.month = yesterday.getMonth() + 1),
-            (startDate.year = yesterday.getFullYear()),
-            (endDate.day = yesterday.getDate() + 1),
-            (endDate.month = yesterday.getMonth() + 1),
-            (endDate.year = yesterday.getFullYear()),
-            setDateText('Ontem'),
-            setOpenDateSelector(false),
-          ]}
+          onClick={() => {
+            const newStartDate = {
+              day: yesterday.getDate(),
+              month: yesterday.getMonth() + 1,
+              year: yesterday.getFullYear(),
+            }
+            const newEndDate = {
+              day: yesterday.getDate() + 1,
+              month: yesterday.getMonth() + 1,
+              year: yesterday.getFullYear(),
+            }
+
+            setQuery({ startDate: newStartDate, endDate: newEndDate })
+            setDateText('Ontem')
+            setOpenDateSelector(false)
+          }}
           className={style.selectDateLi}
         >
           <span>Ontem</span>
         </li>
 
         <li
-          onClick={() => [
-            (startDate.day = startOfWeek.getDate()),
-            (startDate.month = startOfWeek.getMonth() + 1),
-            (startDate.year = startOfWeek.getFullYear()),
-            (endDate.day = date.getDate() + 1),
-            (endDate.month = date.getMonth() + 1),
-            (endDate.year = date.getFullYear()),
-            setDateText('Esta semana'),
-            setOpenDateSelector(false),
-          ]}
+          onClick={() => {
+            const newStartDate = {
+              day: startOfWeek.getDate(),
+              month: startOfWeek.getMonth() + 1,
+              year: startOfWeek.getFullYear(),
+            }
+            const newEndDate = {
+              day: date.getDate() + 1,
+              month: date.getMonth() + 1,
+              year: date.getFullYear(),
+            }
+
+            setQuery({ startDate: newStartDate, endDate: newEndDate })
+            setDateText('Esta semana')
+            setOpenDateSelector(false)
+          }}
           className={style.selectDateLi}
         >
           <span>Esta semana</span>
         </li>
 
         <li
-          onClick={() => [
-            (startDate.day = 1),
-            (startDate.month = date.getMonth() + 1),
-            (startDate.year = date.getFullYear()),
-            (endDate.day = date.getDate() + 1),
-            (endDate.month = date.getMonth() + 1),
-            (endDate.year = date.getFullYear()),
-            setDateText('Este mês'),
-            setOpenDateSelector(false),
-          ]}
+          onClick={() => {
+            const newStartDate = {
+              day: 1,
+              month: date.getMonth() + 1,
+              year: date.getFullYear(),
+            }
+            const newEndDate = {
+              day: date.getDate() + 1,
+              month: date.getMonth() + 1,
+              year: date.getFullYear(),
+            }
+
+            setQuery({ startDate: newStartDate, endDate: newEndDate })
+            setDateText('Este mês')
+            setOpenDateSelector(false)
+          }}
           className={style.selectDateLi}
         >
           <span>Este mês</span>
         </li>
 
         <li
-          onClick={() => [
-            (startDate.day = 1),
-            (startDate.month = 1),
-            (startDate.year = date.getFullYear()),
-            (endDate.day = date.getDate() + 1),
-            (endDate.month = date.getMonth() + 1),
-            (endDate.year = date.getFullYear()),
-            setDateText('Este ano'),
-            setOpenDateSelector(false),
-          ]}
+          onClick={() => {
+            const newStartDate = { day: 1, month: 1, year: date.getFullYear() }
+            const newEndDate = {
+              day: date.getDate() + 1,
+              month: date.getMonth() + 1,
+              year: date.getFullYear(),
+            }
+
+            setQuery({ startDate: newStartDate, endDate: newEndDate })
+            setDateText('Este ano')
+            setOpenDateSelector(false)
+          }}
           className={style.selectDateLi}
         >
           <span>Este ano</span>

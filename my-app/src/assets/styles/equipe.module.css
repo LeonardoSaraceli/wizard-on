@@ -1,0 +1,423 @@
+.main {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  min-height: 100vh;
+}
+
+.section {
+  display: grid;
+  grid-template-rows: max-content 1fr;
+}
+
+.equipe {
+  display: grid;
+  grid-template-rows: max-content;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.funcionarios {
+  display: grid;
+  grid-template-rows: repeat(3, max-content);
+  gap: 2rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #f2f4f7;
+  width: max-content;
+}
+
+.funcionariosName {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: space-between;
+  align-items: center;
+}
+
+.funcionariosSpan {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.funcionariosAdd {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
+.funcionariosFilter {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  list-style-type: none;
+}
+
+.funcionariosInput {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  align-items: center;
+  cursor: pointer;
+}
+
+.funcionariosDiv {
+  display: grid;
+  grid-template-rows: repeat(2, max-content);
+  gap: 0.25rem;
+}
+
+.funcionariosDivSpan {
+  font-size: 14px;
+  color: #a0a0a0;
+}
+
+.funcionariosName {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 0.25rem;
+  align-items: center;
+  font-weight: 500;
+}
+
+.inputSvg {
+  color: #a0a0a0;
+}
+
+.funcionariosSearch {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  gap: 0.5rem;
+  background-color: white;
+  align-items: center;
+  color: #a0a0a0;
+}
+
+.funcionariosSearchInput {
+  border: none;
+  font-size: 16px;
+}
+
+.funcionariosSearchInput:focus {
+  outline: none;
+}
+
+.funcionariosSearchInput::placeholder {
+  color: #a0a0a0;
+}
+
+.funcionariosUl {
+  display: grid;
+  grid-template-rows: max-content;
+  gap: 1rem;
+}
+
+.funcionariosUlLi {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  align-items: center;
+}
+
+.funcionariosUlLiDiv {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  gap: 1.5rem;
+}
+
+.funcionariosUlLiDivH1 {
+  font-size: 32px;
+}
+
+.funcionariosUlLiDivSvg {
+  width: 22.5px;
+  height: 22.5px;
+  cursor: pointer;
+}
+
+.orderByFilter {
+  display: grid;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  position: absolute;
+  top: 20rem;
+}
+
+.orderByFilterUl {
+  display: grid;
+  grid-template-rows: repeat(2, max-content);
+  gap: 1rem;
+  list-style-type: none;
+}
+
+.orderByFilterUlLi {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 0.5rem;
+  align-items: center;
+  cursor: pointer;
+  justify-self: left;
+}
+
+.orderByFilterUlLiSpan {
+  font-weight: 500;
+}
+
+.viewEmployee {
+  display: grid;
+  grid-template-rows: repeat(3, max-content);
+  gap: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  position: absolute;
+  z-index: 2;
+  place-self: center;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.viewEmployeeExit {
+  transform: rotate(45deg);
+  justify-self: right;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
+.viewEmployeeData {
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  border-radius: 0.5rem;
+  background-color: #f2f4f7;
+}
+
+.viewEmployeeDataDiv {
+  display: grid;
+  grid-template-rows: repeat(2, max-content);
+  align-content: space-between;
+  padding: 1rem;
+}
+
+.viewEmployeeDataDivSpan {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.viewEmployeeDataDivNameDiv {
+  display: grid;
+  grid-template-rows: repeat(2, max-content);
+  gap: 0.25rem;
+}
+
+.viewEmployeeDataDivNameDivSpan {
+  font-size: 14px;
+  color: #a0a0a0;
+}
+
+.viewEmployeeDataDivNameDivP {
+  font-weight: 500;
+  font-size: 21px;
+}
+
+.viewEmployeeDataBreak {
+  width: 1px;
+  height: 100%;
+  background-color: #dddfe2;
+}
+
+.viewEmployeeDataPersonalInfo {
+  display: grid;
+  grid-template-rows: repeat(2, max-content);
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.viewEmployeeDataPersonalInfoDiv {
+  display: grid;
+  grid-template-rows: repeat(2, max-content);
+  gap: 0.25rem;
+}
+
+.viewEmployeeDataPersonalInfoDivPassword {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 1rem;
+  align-items: center;
+}
+
+.viewEmployeeDataPersonalInfoDivPasswordSvg {
+  cursor: pointer;
+  color: #a0a0a0;
+  width: 20px;
+  height: 20px;
+}
+
+.viewEmployeeLeads {
+  display: grid;
+  grid-template-rows: repeat(4, max-content);
+  gap: 2rem;
+  padding: 1rem;
+  background-color: #f2f4f7;
+  border-radius: 0.5rem;
+}
+
+.viewEmployeeLeadsUl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  list-style-type: none;
+}
+
+.viewEmployeeLeadsUlLi {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  align-items: center;
+  cursor: pointer;
+  gap: 2rem;
+}
+
+.viewEmployeeLeadsUlLiDiv {
+  display: grid;
+  grid-template-rows: repeat(2, max-content);
+  gap: 0.25rem;
+}
+
+.viewEmployeeLeadsUlLiDivInput {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.viewEmployeeLeadsUlLiDivInputSvg {
+  color: #a0a0a0;
+}
+
+.viewEmployeeLeadsResults {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: space-between;
+}
+
+.viewEmployeeLeadsResultsUl {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  gap: 1.5rem;
+  list-style-type: none;
+}
+
+.viewEmployeeLeadsResultsUlLi {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 0.5rem;
+  align-items: center;
+  font-weight: 500;
+}
+
+.viewEmployeeLeadsResultsUlLiDivGreen {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid;
+  background-color: #9dcd5a;
+}
+
+.viewEmployeeLeadsResultsUlLiDivYellow {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid;
+  background-color: #ffff00;
+}
+
+.viewEmployeeLeadsResultsUlLiDivRed {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid;
+  background-color: #e62331;
+}
+
+.viewEmployeeLeadsList {
+  display: grid;
+  grid-template-rows: max-content;
+  gap: 1rem;
+  list-style-type: none;
+}
+
+.viewEmployeeLeadsListLi {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  padding: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  justify-content: space-between;
+}
+
+.viewEmployeeLeadsListH1 {
+  font-size: 32px;
+}
+
+.viewEmployeeLeadsListActions {
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  gap: 1.5rem;
+  list-style-type: none;
+  align-items: center;
+}
+
+.viewEmployeeLeadsListActionsLi {
+  display: grid;
+}
+
+.viewEmployeeLeadsListActionsEnroll {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid;
+}
+
+.blur {
+  z-index: 1;
+  background-color: black;
+  opacity: 50%;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.enrollSelector {
+  display: grid;
+  grid-template-rows: repeat(3, max-content);
+  gap: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  position: absolute;
+  top: 30rem;
+  font-weight: 500;
+  list-style-type: none;
+  min-width: 10rem;
+}
+
+.enrollSelectorLi {
+  cursor: pointer;
+  justify-self: left;
+}

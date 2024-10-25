@@ -38,28 +38,6 @@ export default function Dashboard() {
   const [dateText, setDateText] = useState('Este mês')
   const [meta, setMeta] = useState(0)
 
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_URL}/api/lead`, {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('jwt')}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          const newCities = data.leads.reduce((acc: string[], lead: Lead) => {
-            const city = lead.city.trim()
-            if (!acc.includes(city)) {
-              acc.push(city)
-            }
-            return acc
-          }, [])
-          setCities(newCities)
-        }
-      })
-  }, [])
-
   const date = new Date()
 
   const [query, setQuery] = useState<Query>({
@@ -74,6 +52,78 @@ export default function Dashboard() {
       year: date.getFullYear(),
     },
   })
+
+  const compareDates = (startDate, endDate, date) => {
+    const formatDate = (d) => `${d.day}/${d.month}/${d.year}`
+
+    const today = {
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+    }
+
+    const tomorrow = {
+      day: date.getDate() + 1,
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+    }
+
+    const yesterday = {
+      day: date.getDate() - 1,
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+    }
+
+    const startOfWeek = new Date(date)
+    startOfWeek.setDate(date.getDate() - date.getDay())
+    const week = {
+      day: startOfWeek.getDate() + 1,
+      month: startOfWeek.getMonth() + 1,
+      year: startOfWeek.getFullYear(),
+    }
+
+    const startOfMonth = {
+      day: 1,
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+    }
+
+    const startOfYear = { day: 1, month: 1, year: date.getFullYear() }
+
+    if (
+      formatDate(startDate) === formatDate(today) &&
+      formatDate(endDate) === formatDate(tomorrow)
+    ) {
+      return 'Hoje'
+    } else if (
+      formatDate(startDate) === formatDate(yesterday) &&
+      formatDate(endDate) === formatDate(today)
+    ) {
+      return 'Ontem'
+    } else if (
+      formatDate(startDate) === formatDate(week) &&
+      formatDate(endDate) === formatDate(tomorrow)
+    ) {
+      return 'Esta semana'
+    } else if (
+      formatDate(startDate) === formatDate(startOfMonth) &&
+      formatDate(endDate) === formatDate(tomorrow)
+    ) {
+      return 'Este mês'
+    } else if (
+      formatDate(startDate) === formatDate(startOfYear) &&
+      formatDate(endDate) === formatDate(tomorrow)
+    ) {
+      return 'Este ano'
+    } else {
+      return `${startDate.day}/${startDate.month}/${startDate.year} - ${endDate.day}/${endDate.month}/${endDate.year}`
+    }
+  }
+
+  useEffect(() => {
+    const text = compareDates(query.startDate, query.endDate, date)
+    setDateText(text)
+  }, [query])
 
   const [location, setLocation] = useState('')
 
@@ -138,6 +188,16 @@ export default function Dashboard() {
       .then((data) => {
         if (data) {
           setLeads(data.leads)
+
+          const newCities: string[] = []
+
+          data.leads?.map((lead) => {
+            if (!cities.includes(lead.city)) {
+              newCities.push(lead.city)
+            }
+          })
+
+          setCities(newCities)
         }
       })
   }, [query.endDate, location, query.startDate, router])
@@ -162,7 +222,7 @@ export default function Dashboard() {
   }
 
   const medianPrice = calculateMedianPrice(prices)
-  const medianEnrolled = enrolled > 0 ? leads?.length / enrolled : 0
+  const medianEnrolled = enrolled > 0 ? (enrolled / leads?.length) * 100 : 0
   const enrolledBasedOnGoal = (enrolled / meta) * 100
   const gap = enrolled - meta
 
@@ -212,6 +272,8 @@ export default function Dashboard() {
                   date={date}
                   setOpenDateSelector={setOpenDateSelector}
                   setDateText={setDateText}
+                  top={20}
+                  setQuery={setQuery}
                 />
               )}
 
@@ -242,6 +304,8 @@ export default function Dashboard() {
                   cities={cities}
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
+                  top={20}
+                  right={31.8}
                 />
               )}
 
@@ -289,7 +353,10 @@ export default function Dashboard() {
                 </span>
 
                 <h1 className={style.data}>
-                  {isFinite(medianEnrolled) ? medianEnrolled.toFixed(2) : 0}%
+                  {isFinite(medianEnrolled)
+                    ? medianEnrolled.toFixed(2)
+                    : '0.00'}
+                  %
                 </h1>
               </li>
 
@@ -301,7 +368,7 @@ export default function Dashboard() {
                 <h1 className={style.data}>
                   {isFinite(enrolledBasedOnGoal)
                     ? enrolledBasedOnGoal.toFixed(2)
-                    : 0}
+                    : '0.00'}
                   %
                 </h1>
               </li>
@@ -309,7 +376,7 @@ export default function Dashboard() {
               <li className={style.dashboardDataLi}>
                 <span className={style.dateInputDivSpan}>Gap</span>
 
-                <h1 className={style.data}>{gap}</h1>
+                <h1 className={style.data}>{gap > 0 ? '+' + gap : gap}</h1>
               </li>
             </ul>
           </div>

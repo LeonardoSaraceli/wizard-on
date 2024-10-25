@@ -19,14 +19,15 @@ export async function GET(req: NextRequest) {
 
   try {
     const { searchParams } = new URL(req.url)
-    const companyId = searchParams.get('companyId')
-    const company = await getCompanyById(Number(companyId))
+    const orderBy = searchParams.get('orderBy')
+    const companyId = tokenCheck.payload?.id
+    const company = await getCompanyById(companyId)
 
     if (!company.rowCount) {
       return clientErrorHandler('Company not found', 404)
     }
 
-    const employees = await getAllEmployeesByCompanyId(Number(companyId))
+    const employees = await getAllEmployeesByCompanyId(companyId, orderBy)
     const employeesWithoutPassword = omitPassword(employees.rows)
 
     return new Response(
