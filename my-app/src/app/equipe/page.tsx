@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react'
 import OrderByFilter from '@/components/OrderByFilter'
 import { useRouter } from 'next/navigation'
 import ViewEmployee from '@/components/ViewEmployee'
+import EditEmployee from '@/components/EditEmployee'
 
 interface Employee {
   id: number
@@ -31,14 +32,15 @@ export default function Equipe() {
   const [showViewEmployee, setShowViewEmployee] = useState(false)
   const [currentEmployeeId, setCurrentEmployeeId] = useState(0)
   const [showBlur, setShowBlur] = useState(false)
+  const [showEditEmployee, setShowEditEmployee] = useState(false)
 
   useEffect(() => {
-    if (showViewEmployee) {
+    if (showViewEmployee || showEditEmployee) {
       setShowBlur(true)
     } else {
       setShowBlur(false)
     }
-  }, [showViewEmployee])
+  }, [showViewEmployee, showEditEmployee])
 
   useEffect(() => {
     fetch(
@@ -160,7 +162,13 @@ export default function Equipe() {
                       ]}
                     />
 
-                    <FiEdit2 className={style.funcionariosUlLiDivSvg} />
+                    <FiEdit2
+                      className={style.funcionariosUlLiDivSvg}
+                      onClick={() => [
+                        setShowEditEmployee(true),
+                        setCurrentEmployeeId(employee.id),
+                      ]}
+                    />
 
                     <RiDeleteBin7Line
                       className={style.funcionariosUlLiDivSvg}
@@ -173,7 +181,18 @@ export default function Equipe() {
         </div>
 
         {showViewEmployee && (
-          <ViewEmployee currentEmployeeId={currentEmployeeId} setShowViewEmployee={setShowViewEmployee} employeeNameEllipsis={employeeNameEllipsis} />
+          <ViewEmployee
+            currentEmployeeId={currentEmployeeId}
+            setShowViewEmployee={setShowViewEmployee}
+            employeeNameEllipsis={employeeNameEllipsis}
+          />
+        )}
+
+        {showEditEmployee && (
+          <EditEmployee
+            currentEmployeeId={currentEmployeeId}
+            setShowEditEmployee={setShowEditEmployee}
+          />
         )}
       </section>
 

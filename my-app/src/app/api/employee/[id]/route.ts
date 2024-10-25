@@ -52,8 +52,9 @@ export async function PUT(
   }
 
   try {
+    const companyId = tokenCheck.payload?.id
     const body = await req.json()
-    const { cpf, password, name, role, companyId } = body
+    const { cpf, password, name, role } = body
     const { id } = params
 
     const employee = await getEmployeeById(id)
@@ -62,7 +63,7 @@ export async function PUT(
       return clientErrorHandler('Employee not found', 404)
     }
 
-    if (!cpf || !password || !name || !role || !companyId) {
+    if (!cpf || !name || !role) {
       return clientErrorHandler('Missing fields in request body', 400)
     }
 

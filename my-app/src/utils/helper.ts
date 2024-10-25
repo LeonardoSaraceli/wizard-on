@@ -118,10 +118,26 @@ export async function updateEmployee(
   companyId: number,
   id: number
 ) {
-  return await db.query(
-    'UPDATE employees SET cpf = $1, password = $2, name = $3, role = $4, companyId = $5 WHERE id = $6',
-    [cpf, await bcrypt.hash(String(password), 10), name, role, companyId, id]
-  )
+  let query = 'UPDATE employees SET cpf = $1, name = $2, role = $3'
+  let paramIndex = 4
+  const queryArr = [cpf, name, role]
+
+  if (password) {
+    query += `, password = $${paramIndex}`
+    queryArr.push(await bcrypt.hash(String(password), 10))
+    paramIndex++
+  }
+
+  if (companyId) {
+    query += `, companyId = $${paramIndex}`
+    queryArr.push(companyId)
+    paramIndex++
+  }
+
+  query += ` WHERE id = $${paramIndex}`
+  queryArr.push(id)
+
+  return await db.query(query, queryArr)
 }
 
 export async function deleteEmployee(id: number) {
