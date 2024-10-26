@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
     const startDate = searchParams.get('startDate')
     const endDate = searchParams.get('endDate')
     const location = searchParams.get('location')
+    const enroll = searchParams.get('enroll')
 
     const company = await getCompanyById(companyId)
 
@@ -34,7 +35,8 @@ export async function GET(req: NextRequest) {
       companyId,
       startDate,
       endDate,
-      location
+      location,
+      enroll
     )
 
     return new Response(JSON.stringify({ leads: leads.rows }), {

@@ -148,7 +148,8 @@ export async function getAllLeadsByCompanyId(
   companyId: number,
   startDate: string | null,
   endDate: string | null,
-  location: string | null
+  location: string | null,
+  enroll: string | null
 ) {
   let query =
     'SELECT leads.* FROM leads JOIN employees ON leads.employeeId = employees.id WHERE employees.companyId = $1'
@@ -175,6 +176,12 @@ export async function getAllLeadsByCompanyId(
   if (location) {
     query += ` AND leads.location = $${paramIndex}`
     params.push(location)
+    paramIndex++
+  }
+
+  if (enroll) {
+    query += ` AND leads.enroll = $${paramIndex}`
+    params.push(enroll)
   }
 
   return await db.query(query, params)

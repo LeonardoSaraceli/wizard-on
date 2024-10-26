@@ -111,7 +111,7 @@ export default function ViewEmployee({
   useEffect(() => {
     const text = compareDates(query.startDate, query.endDate, date)
     setDateText(text)
-  }, [query])
+  }, [date, query])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -183,25 +183,28 @@ export default function ViewEmployee({
       .then((data) => {
         if (data) {
           setLeads(data.leads)
-          const newCities: string[] = []
-
-          data.leads?.map((lead) => {
-            if (!cities.includes(lead.city)) {
-              newCities.push(lead.city)
-            }
-          })
-
-          setCities(newCities)
         }
       })
   }, [
     query.startDate,
     query.endDate,
-    currentEmployeeId,
     router,
     enrollText,
     location,
+    currentEmployeeId,
   ])
+
+  useEffect(() => {
+    const newCities: string[] = []
+
+    leads.forEach((lead) => {
+      if (!newCities.includes(lead.city)) {
+        newCities.push(lead.city)
+      }
+    })
+
+    setCities(newCities)
+  }, [leads])
 
   const searchLeadsOutput = leads?.filter((lead) =>
     lead.name.trim().toLowerCase().includes(search.trim().toLowerCase())

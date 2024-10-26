@@ -4,6 +4,13 @@
   min-height: 100vh;
 }
 
+.mainDiv {
+  display: grid;
+  grid-template-rows: max-content;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
 .section {
   display: grid;
   grid-template-rows: max-content 1fr;

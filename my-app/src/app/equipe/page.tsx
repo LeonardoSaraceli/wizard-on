@@ -10,12 +10,13 @@ import { FaMagnifyingGlass } from 'react-icons/fa6'
 import { FaRegEye } from 'react-icons/fa'
 import { FiEdit2 } from 'react-icons/fi'
 import { RiDeleteBin7Line } from 'react-icons/ri'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import OrderByFilter from '@/components/OrderByFilter'
 import { useRouter } from 'next/navigation'
 import ViewEmployee from '@/components/ViewEmployee'
 import EditEmployee from '@/components/EditEmployee'
 import DeleteEmployee from '@/components/DeleteEmployee'
+import CreateEmployee from '@/components/CreateEmployee'
 
 interface Employee {
   id: number
@@ -35,16 +36,27 @@ export default function Equipe() {
   const [showBlur, setShowBlur] = useState(false)
   const [showEditEmployee, setShowEditEmployee] = useState(false)
   const [showDeleteEmployee, setShowDeleteEmployee] = useState(false)
+  const [showCreateEmployee, setShowCreateEmployee] = useState(false)
 
   useEffect(() => {
-    if (showViewEmployee || showEditEmployee || showDeleteEmployee) {
+    if (
+      showViewEmployee ||
+      showEditEmployee ||
+      showDeleteEmployee ||
+      showCreateEmployee
+    ) {
       setShowBlur(true)
     } else {
       setShowBlur(false)
     }
-  }, [showViewEmployee, showEditEmployee, showDeleteEmployee])
+  }, [
+    showViewEmployee,
+    showEditEmployee,
+    showDeleteEmployee,
+    showCreateEmployee,
+  ])
 
-  const fecthEmployees = () => {
+  const fecthEmployees = useCallback(() => {
     fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/employee${
         order ? `?orderBy=${order}` : ''
@@ -69,11 +81,11 @@ export default function Equipe() {
           setEmployees(data.employees)
         }
       })
-  }
+  }, [order, router])
 
   useEffect(() => {
     fecthEmployees()
-  }, [])
+  }, [fecthEmployees])
 
   const employeeNameEllipsis = (name: string) => {
     if (!name) {
@@ -103,7 +115,10 @@ export default function Equipe() {
             <div className={style.funcionariosName}>
               <span className={style.funcionariosSpan}>Funcionários</span>
 
-              <FaPlus className={style.funcionariosAdd} />
+              <FaPlus
+                className={style.funcionariosAdd}
+                onClick={() => setShowCreateEmployee(!showCreateEmployee)}
+              />
             </div>
 
             <ul className={style.funcionariosFilter}>
@@ -209,6 +224,13 @@ export default function Equipe() {
           <DeleteEmployee
             currentEmployeeId={currentEmployeeId}
             setShowDeleteEmployee={setShowDeleteEmployee}
+            fecthEmployees={fecthEmployees}
+          />
+        )}
+
+        {showCreateEmployee && (
+          <CreateEmployee
+            setShowCreateEmployee={setShowCreateEmployee}
             fecthEmployees={fecthEmployees}
           />
         )}

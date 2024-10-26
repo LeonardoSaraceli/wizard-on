@@ -49,10 +49,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const companyId = tokenCheck.payload?.id
     const body = await req.json()
-    const { cpf, password, name, role, companyId } = body
+    const { cpf, password, name, role } = body
 
-    if (!cpf || !password || !name || !role || !companyId) {
+    if (!cpf || !password || !name || !role) {
       return clientErrorHandler('Missing fields in request body', 400)
     }
 
@@ -62,7 +63,7 @@ export async function POST(req: NextRequest) {
       return clientErrorHandler('CPF already registered', 409)
     }
 
-    const company = await getCompanyById(Number(companyId))
+    const company = await getCompanyById(companyId)
 
     if (!company.rowCount) {
       return clientErrorHandler('Company not found', 404)

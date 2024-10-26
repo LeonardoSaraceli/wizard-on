@@ -188,19 +188,21 @@ export default function Dashboard() {
       .then((data) => {
         if (data) {
           setLeads(data.leads)
-
-          const newCities: string[] = []
-
-          data.leads?.map((lead) => {
-            if (!cities.includes(lead.city)) {
-              newCities.push(lead.city)
-            }
-          })
-
-          setCities(newCities)
         }
       })
   }, [query.endDate, location, query.startDate, router])
+
+  useEffect(() => {
+    const newCities: string[] = []
+
+    leads.forEach((lead) => {
+      if (!newCities.includes(lead.city)) {
+        newCities.push(lead.city)
+      }
+    })
+    
+    setCities(newCities)
+  }, [leads])
 
   const enrolled = leads?.filter((lead) => lead.enroll).length
   const prices = leads

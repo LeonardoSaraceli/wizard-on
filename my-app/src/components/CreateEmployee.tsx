@@ -1,22 +1,30 @@
 import { FaPlus } from 'react-icons/fa6'
+import { CiCircleInfo } from 'react-icons/ci'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import style from '../assets/styles/equipe.module.css'
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import error from '../assets/styles/form.module.css'
 import { useRouter } from 'next/navigation'
 
-export default function EditEmployee({
-  currentEmployeeId,
-  setShowEditEmployee,
+export default function CreateEmployee({
+  setShowCreateEmployee,
+  fecthEmployees,
 }) {
   const router = useRouter()
-  const [employee, setEmployee] = useState({})
+
   const [formData, setFormData] = useState({
-    name: '',
     cpf: '',
+    name: '',
     password: '',
     role: '',
   })
 
+  const [isCpfUnique, setIsCpfUnique] = useState(true)
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!isCpfUnique) {
+      setIsCpfUnique(true)
+    }
+
     const { name, value } = e.target
 
     setFormData({
@@ -28,15 +36,15 @@ export default function EditEmployee({
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    fetch(`${process.env.NEXT_PUBLIC_URL}/api/employee/${currentEmployeeId}`, {
-      method: 'PUT',
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/employee`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`,
       },
       body: JSON.stringify({
-        name: formData.name,
         cpf: formData.cpf,
+        name: formData.name,
         password: formData.password,
         role: formData.role,
       }),
@@ -47,25 +55,8 @@ export default function EditEmployee({
           return
         }
 
-        return res.json()
-      })
-      .then((data) => {
-        if (data) {
-          setShowEditEmployee(false)
-        }
-      })
-  }
-
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_URL}/api/employee/${currentEmployeeId}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('jwt')}`,
-      },
-    })
-      .then((res) => {
-        if (res.status === 403 || res.status === 404) {
-          router.push('/')
+        if (res.status === 409) {
+          setIsCpfUnique(false)
           return
         }
 
@@ -73,30 +64,20 @@ export default function EditEmployee({
       })
       .then((data) => {
         if (data) {
-          setEmployee(data.employee)
+          fecthEmployees()
+          setShowCreateEmployee(false)
         }
       })
-  }, [currentEmployeeId, router])
-
-  useEffect(() => {
-    if (employee) {
-      setFormData({
-        name: employee.name,
-        cpf: employee.cpf,
-        password: '',
-        role: employee.role,
-      })
-    }
-  }, [employee])
+  }
 
   return (
     <div className={style.editEmployee}>
       <div className={style.editEmployeeDiv}>
-        <span className={style.funcionariosSpan}>Editar dados</span>
+        <span className={style.funcionariosSpan}>Cadastrar funcionário</span>
 
         <FaPlus
           className={style.viewEmployeeExit}
-          onClick={() => setShowEditEmployee(false)}
+          onClick={() => setShowCreateEmployee(false)}
         />
       </div>
 
@@ -157,12 +138,21 @@ export default function EditEmployee({
               name="password"
               value={formData.password}
               onChange={handleChange}
+              required
             />
           </li>
+
+          {!isCpfUnique && (
+            <div className={error.error}>
+              <CiCircleInfo className={error.info} />
+
+              <span className={error.errorMessage}>CPF já cadastrado.</span>
+            </div>
+          )}
         </ul>
 
         <button type="submit" className={style.editEmployeeFormButton}>
-          Salvar
+          Registrar
         </button>
       </form>
     </div>
