@@ -296,7 +296,11 @@ export default function Leads() {
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
                   top={19.8}
-                  right={30.4}
+                  right={
+                    localStorage.getItem('closedAside') === 'false'
+                      ? 30.4
+                      : 33.4
+                  }
                 />
               )}
 

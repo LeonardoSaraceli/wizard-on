@@ -12,21 +12,44 @@ import { useEffect, useState } from 'react'
 export default function Aside() {
   const router = useRouter()
   const [currentUrl, setCurrentUrl] = useState('')
+  const [closedAside, setClosedAside] = useState(
+    localStorage.getItem('closedAside') === 'false' ? false : true || false
+  )
 
   useEffect(() => {
     setCurrentUrl(window.location.href)
   }, [])
 
+  useEffect(() => {
+    if (closedAside) {
+      localStorage.setItem('closedAside', 'true')
+    } else {
+      localStorage.setItem('closedAside', 'false')
+    }
+  }, [closedAside])
+
+  const handleExit = () => {
+    localStorage.clear()
+    router.push('/')
+  }
+
   return (
     <aside className={style.aside}>
       <div className={style.menu}>
-        <div className={style.menuName}>
+        <div
+          className={style.menuName}
+          style={closedAside ? { display: 'none' } : undefined}
+        >
           <HiMenu className={style.liSvg} />
 
           <span className={style.menuSpan}>Menu</span>
         </div>
 
-        <FaArrowRightLong className={style.arrow} />
+        <FaArrowRightLong
+          className={style.arrow}
+          onClick={() => setClosedAside(!closedAside)}
+          style={closedAside ? { transform: 'rotate(0deg)' } : undefined}
+        />
       </div>
 
       <ul className={style.menuNav}>
@@ -36,8 +59,12 @@ export default function Aside() {
           <span
             className={style.liSpan}
             style={
-              currentUrl.includes('dashboard')
-                ? { fontWeight: 'bold' }
+              closedAside
+                ? { display: 'none' }
+                : currentUrl.includes('dashboard')
+                ? {
+                    fontWeight: 'bold',
+                  }
                 : undefined
             }
           >
@@ -51,7 +78,13 @@ export default function Aside() {
           <span
             className={style.liSpan}
             style={
-              currentUrl.includes('equipe') ? { fontWeight: 'bold' } : undefined
+              closedAside
+                ? { display: 'none' }
+                : currentUrl.includes('equipe')
+                ? {
+                    fontWeight: 'bold',
+                  }
+                : undefined
             }
           >
             Equipe
@@ -64,7 +97,13 @@ export default function Aside() {
           <span
             className={style.liSpan}
             style={
-              currentUrl.includes('leads') ? { fontWeight: 'bold' } : undefined
+              closedAside
+                ? { display: 'none' }
+                : currentUrl.includes('leads')
+                ? {
+                    fontWeight: 'bold',
+                  }
+                : undefined
             }
           >
             Leads
@@ -76,13 +115,23 @@ export default function Aside() {
         <li className={style.li}>
           <RiBuilding3Line className={style.liSvg} />
 
-          <span className={style.liSpan}>Perfil</span>
+          <span
+            className={style.liSpan}
+            style={closedAside ? { display: 'none' } : undefined}
+          >
+            Perfil
+          </span>
         </li>
 
-        <li className={style.li}>
+        <li className={style.li} onClick={() => handleExit()}>
           <IoPower className={style.liSvg} />
 
-          <span className={style.liSpan}>Sair</span>
+          <span
+            className={style.liSpan}
+            style={closedAside ? { display: 'none' } : undefined}
+          >
+            Sair
+          </span>
         </li>
       </ul>
     </aside>

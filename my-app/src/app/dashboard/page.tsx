@@ -200,7 +200,7 @@ export default function Dashboard() {
         newCities.push(lead.city)
       }
     })
-    
+
     setCities(newCities)
   }, [leads])
 
@@ -307,7 +307,11 @@ export default function Dashboard() {
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
                   top={20}
-                  right={31.8}
+                  right={
+                    localStorage.getItem('closedAside') === 'false'
+                      ? 31.8
+                      : 34.8
+                  }
                 />
               )}
 
