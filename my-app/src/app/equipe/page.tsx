@@ -15,6 +15,7 @@ import OrderByFilter from '@/components/OrderByFilter'
 import { useRouter } from 'next/navigation'
 import ViewEmployee from '@/components/ViewEmployee'
 import EditEmployee from '@/components/EditEmployee'
+import DeleteEmployee from '@/components/DeleteEmployee'
 
 interface Employee {
   id: number
@@ -33,16 +34,17 @@ export default function Equipe() {
   const [currentEmployeeId, setCurrentEmployeeId] = useState(0)
   const [showBlur, setShowBlur] = useState(false)
   const [showEditEmployee, setShowEditEmployee] = useState(false)
+  const [showDeleteEmployee, setShowDeleteEmployee] = useState(false)
 
   useEffect(() => {
-    if (showViewEmployee || showEditEmployee) {
+    if (showViewEmployee || showEditEmployee || showDeleteEmployee) {
       setShowBlur(true)
     } else {
       setShowBlur(false)
     }
-  }, [showViewEmployee, showEditEmployee])
+  }, [showViewEmployee, showEditEmployee, showDeleteEmployee])
 
-  useEffect(() => {
+  const fecthEmployees = () => {
     fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/employee${
         order ? `?orderBy=${order}` : ''
@@ -67,7 +69,11 @@ export default function Equipe() {
           setEmployees(data.employees)
         }
       })
-  }, [order, router])
+  }
+
+  useEffect(() => {
+    fecthEmployees()
+  }, [])
 
   const employeeNameEllipsis = (name: string) => {
     if (!name) {
@@ -172,6 +178,10 @@ export default function Equipe() {
 
                     <RiDeleteBin7Line
                       className={style.funcionariosUlLiDivSvg}
+                      onClick={() => [
+                        setShowDeleteEmployee(true),
+                        setCurrentEmployeeId(employee.id),
+                      ]}
                     />
                   </div>
                 </li>
@@ -192,6 +202,14 @@ export default function Equipe() {
           <EditEmployee
             currentEmployeeId={currentEmployeeId}
             setShowEditEmployee={setShowEditEmployee}
+          />
+        )}
+
+        {showDeleteEmployee && (
+          <DeleteEmployee
+            currentEmployeeId={currentEmployeeId}
+            setShowDeleteEmployee={setShowDeleteEmployee}
+            fecthEmployees={fecthEmployees}
           />
         )}
       </section>

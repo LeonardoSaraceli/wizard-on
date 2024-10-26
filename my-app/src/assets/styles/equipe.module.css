@@ -489,3 +489,33 @@
   font-weight: 500;
   cursor: pointer;
 }
+
+.deleteEmployee {
+  display: grid;
+  grid-template-rows: repeat(3, max-content);
+  gap: 2rem;
+  padding: 1.5rem;
+  z-index: 2;
+  background-color: white;
+  border-radius: 0.5rem;
+  place-self: center;
+  max-height: 80vh;
+  position: absolute;
+}
+
+.deleteEmployeeSpan {
+  font-size: 21px;
+  font-weight: 500;
+}
+
+.deleteEmployeeBtn {
+  padding: 1rem 2rem;
+  color: white;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #e62331;
+  justify-self: right;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
