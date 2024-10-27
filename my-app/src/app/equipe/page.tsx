@@ -77,6 +77,10 @@ export default function Equipe() {
   }, [token])
 
   const fecthEmployees = useCallback(() => {
+    if (!token) {
+      return
+    }
+
     fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/employee${
         order ? `?orderBy=${order}` : ''
@@ -101,7 +105,7 @@ export default function Equipe() {
           setEmployees(data.employees)
         }
       })
-  }, [order, router])
+  }, [order, router, token])
 
   useEffect(() => {
     fecthEmployees()

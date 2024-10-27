@@ -174,6 +174,10 @@ export default function Dashboard() {
   const [leads, setLeads] = useState<Lead[]>([])
 
   useEffect(() => {
+    if (!token) {
+      return
+    }
+
     fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/lead?${
         query.startDate.day && query.startDate.month && query.startDate.year
@@ -218,7 +222,7 @@ export default function Dashboard() {
           setLeads(data.leads)
         }
       })
-  }, [query.endDate, location, query.startDate, router])
+  }, [query.endDate, location, query.startDate, router, token])
 
   useEffect(() => {
     const newCities: string[] = []

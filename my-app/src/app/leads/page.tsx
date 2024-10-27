@@ -209,7 +209,7 @@ export default function Leads() {
           setLeads(data.leads)
         }
       })
-  }, [enrollText, location, query.endDate, query.startDate, router])
+  }, [enrollText, location, query.endDate.day, query.endDate.month, query.endDate.year, query.startDate.day, query.startDate.month, query.startDate.year, router, token])
 
   useEffect(() => {
     fetchLeads()
