@@ -1,3 +1,5 @@
+'use client'
+
 import { FaPlus } from 'react-icons/fa6'
 import { CiCircleInfo } from 'react-icons/ci'
 import { ChangeEvent, FormEvent, useState } from 'react'

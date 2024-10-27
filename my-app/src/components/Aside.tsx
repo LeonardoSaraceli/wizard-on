@@ -1,3 +1,5 @@
+'use client'
+
 import { LuLayoutGrid } from 'react-icons/lu'
 import { BsPeople } from 'react-icons/bs'
 import { IoFunnelOutline } from 'react-icons/io5'

@@ -1,3 +1,5 @@
+'use client'
+
 import { FaRegEye, FaRegCalendarAlt } from 'react-icons/fa'
 import { FaMagnifyingGlass, FaPlus } from 'react-icons/fa6'
 import { IoIosArrowDown } from 'react-icons/io'

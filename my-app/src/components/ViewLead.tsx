@@ -1,3 +1,5 @@
+'use client'
+
 import { FaPlus } from 'react-icons/fa6'
 import style from '../assets/styles/leads.module.css'
 import { useEffect, useState } from 'react'
