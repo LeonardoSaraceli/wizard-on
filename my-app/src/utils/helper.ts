@@ -120,7 +120,7 @@ export async function updateEmployee(
 ) {
   let query = 'UPDATE employees SET cpf = $1, name = $2, role = $3'
   let paramIndex = 4
-  const queryArr = [cpf, name, role]
+  const queryArr: (string | number)[] = [cpf, name, role]
 
   if (password) {
     query += `, password = $${paramIndex}`
@@ -315,6 +315,28 @@ export async function getEmployeeLeads(
     query += ` AND leads.enroll = $${paramIndex}`
     params.push(enroll)
   }
+
+  return (await db.query(query, params)).rows
+}
+
+export async function editCompany(
+  unit: string,
+  email: string,
+  password: string | null,
+  companyId: number
+) {
+  let query = 'UPDATE companies SET unit = $1, email = $2'
+  const params: (string | number)[] = [unit, email]
+  let paramIdx = 3
+
+  if (password) {
+    query += `, password = $${paramIdx}`
+    params.push(await bcrypt.hash(String(password), 10))
+    paramIdx++
+  }
+
+  query += ` WHERE id = $${paramIdx}`
+  params.push(companyId)
 
   return (await db.query(query, params)).rows
 }

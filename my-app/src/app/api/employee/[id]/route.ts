@@ -4,6 +4,7 @@ import {
   clientErrorHandler,
   deleteEmployee,
   getCompanyById,
+  getEmployeeByCpf,
   getEmployeeById,
   omitPassword,
   serverErrorHandler,
@@ -63,14 +64,20 @@ export async function PUT(
       return clientErrorHandler('Employee not found', 404)
     }
 
-    if (!cpf || !name || !role) {
-      return clientErrorHandler('Missing fields in request body', 400)
-    }
-
     const company = await getCompanyById(companyId)
 
     if (!company.rowCount) {
       return clientErrorHandler('Company not found', 404)
+    }
+
+    if (!cpf || !name || !role) {
+      return clientErrorHandler('Missing fields in request body', 400)
+    }
+
+    const existingCpf = await getEmployeeByCpf(cpf)
+
+    if (existingCpf.rowCount && cpf !== employee.rows[0].cpf) {
+      return clientErrorHandler('CPF already registered', 409)
     }
 
     await updateEmployee(cpf, password, name, role, companyId, id)

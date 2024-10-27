@@ -5,29 +5,28 @@ import { useRouter } from 'next/navigation'
 import { CiCircleInfo } from 'react-icons/ci'
 import error from '../assets/styles/form.module.css'
 
-export default function EditEmployee({
-  currentEmployeeId,
-  setShowEditEmployee,
-}) {
+export default function EditCompany({ setShowEditCompany }) {
   const router = useRouter()
-  const [employee, setEmployee] = useState({
-    name: '',
-    cpf: '',
+
+  const [company, setCompany] = useState({
+    id: '',
+    unit: '',
+    email: '',
     password: '',
-    role: '',
+    created_at: '',
   })
   const [formData, setFormData] = useState({
-    name: '',
-    cpf: '',
+    unit: '',
+    email: '',
     password: '',
-    role: '',
+    created_at: '',
   })
 
-  const [uniqueCpf, setUniqueCpf] = useState(true)
+  const [uniqueEmail, setUniqueEmail] = useState(true)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!uniqueCpf) {
-      setUniqueCpf(true)
+    if (!uniqueEmail) {
+      setUniqueEmail(true)
     }
 
     const { name, value } = e.target
@@ -38,20 +37,45 @@ export default function EditEmployee({
     })
   }
 
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/company/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 403 || res.status === 404) {
+          router.push('/')
+          return
+        }
+
+        return res.json()
+      })
+      .then((data) => {
+        if (data) {
+          setCompany(data.company)
+        }
+      })
+  }, [router])
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    fetch(`${process.env.NEXT_PUBLIC_URL}/api/employee/${currentEmployeeId}`, {
+    if (!company.id) {
+      return
+    }
+
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/company/${company.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`,
       },
       body: JSON.stringify({
-        name: formData.name,
-        cpf: formData.cpf,
+        unit: formData.unit,
+        email: formData.email,
         password: formData.password,
-        role: formData.role,
       }),
     })
       .then((res) => {
@@ -60,52 +84,30 @@ export default function EditEmployee({
           return
         }
 
+        if (res.status === 409) {
+          setUniqueEmail(false)
+          return
+        }
+
         return res.json()
       })
       .then((data) => {
         if (data) {
-          setShowEditEmployee(false)
+          setShowEditCompany(false)
         }
       })
   }
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_URL}/api/employee/${currentEmployeeId}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('jwt')}`,
-      },
-    })
-      .then((res) => {
-        if (res.status === 403 || res.status === 404) {
-          router.push('/')
-          return
-        }
-
-        if (res.status === 409) {
-          setUniqueCpf(false)
-          return
-        }
-
-        return res.json()
-      })
-      .then((data) => {
-        if (data) {
-          setEmployee(data.employee)
-        }
-      })
-  }, [currentEmployeeId, router])
-
-  useEffect(() => {
-    if (employee) {
+    if (company) {
       setFormData({
-        name: employee.name,
-        cpf: employee.cpf,
+        unit: company.unit,
+        email: company.email,
         password: '',
-        role: employee.role,
+        created_at: company.created_at,
       })
     }
-  }, [employee])
+  }, [company])
 
   return (
     <div className={style.editEmployee}>
@@ -114,35 +116,34 @@ export default function EditEmployee({
 
         <FaPlus
           className={style.viewEmployeeExit}
-          onClick={() => setShowEditEmployee(false)}
+          onClick={() => setShowEditCompany(false)}
         />
       </div>
 
       <form className={style.editEmployeeForm} onSubmit={handleSubmit}>
         <ul className={style.editEmployeeFormUl} style={{ gridArea: 'ul1' }}>
           <li className={style.editEmployeeFormUlLi}>
-            <span className={style.funcionariosDivSpan}>Nome</span>
+            <span className={style.funcionariosDivSpan}>Nome da unidade</span>
 
             <input
               type="text"
               className={style.editEmployeeFormUlLiInput}
-              name="name"
-              value={formData.name}
+              name="unit"
+              value={formData.unit}
               onChange={handleChange}
               required
             />
           </li>
 
           <li className={style.editEmployeeFormUlLi}>
-            <span className={style.funcionariosDivSpan}>Função</span>
+            <span className={style.funcionariosDivSpan}>Redefinir senha</span>
 
             <input
-              type="text"
+              type="password"
               className={style.editEmployeeFormUlLiInput}
-              name="role"
-              value={formData.role}
+              name="password"
+              value={formData.password}
               onChange={handleChange}
-              required
             />
           </li>
         </ul>
@@ -154,35 +155,35 @@ export default function EditEmployee({
 
         <ul className={style.editEmployeeFormUl} style={{ gridArea: 'ul2' }}>
           <li className={style.editEmployeeFormUlLi}>
-            <span className={style.funcionariosDivSpan}>CPF</span>
+            <span className={style.funcionariosDivSpan}>E-mail</span>
 
             <input
-              type="text"
+              type="email"
               className={style.editEmployeeFormUlLiInput}
-              name="cpf"
-              value={formData.cpf}
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
           </li>
 
           <li className={style.editEmployeeFormUlLi}>
-            <span className={style.funcionariosDivSpan}>Senha</span>
+            <span className={style.funcionariosDivSpan}>Criado em</span>
 
             <input
-              type="password"
+              type="text"
               className={style.editEmployeeFormUlLiInput}
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
+              value={formData.created_at.split('T')[0]}
+              readOnly
+              style={{ cursor: 'not-allowed' }}
             />
           </li>
 
-          {!uniqueCpf && (
+          {!uniqueEmail && (
             <div className={error.error}>
               <CiCircleInfo className={error.info} />
 
-              <span className={error.errorMessage}>CPF já cadastrado.</span>
+              <span className={error.errorMessage}>E-mail já registrado</span>
             </div>
           )}
         </ul>
