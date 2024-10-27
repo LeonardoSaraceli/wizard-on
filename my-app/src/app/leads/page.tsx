@@ -175,6 +175,10 @@ export default function Leads() {
   }, [date, query])
 
   const fetchLeads = useCallback(() => {
+    if (!token) {
+      return
+    }
+
     fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/lead?${
         query.startDate.day && query.startDate.month && query.startDate.year
@@ -209,7 +213,18 @@ export default function Leads() {
           setLeads(data.leads)
         }
       })
-  }, [enrollText, location, query.endDate.day, query.endDate.month, query.endDate.year, query.startDate.day, query.startDate.month, query.startDate.year, router, token])
+  }, [
+    enrollText,
+    location,
+    query.endDate.day,
+    query.endDate.month,
+    query.endDate.year,
+    query.startDate.day,
+    query.startDate.month,
+    query.startDate.year,
+    router,
+    token,
+  ])
 
   useEffect(() => {
     fetchLeads()
