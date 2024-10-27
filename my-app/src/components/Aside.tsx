@@ -1,5 +1,3 @@
-'use client'
-
 import { LuLayoutGrid } from 'react-icons/lu'
 import { BsPeople } from 'react-icons/bs'
 import { IoFunnelOutline } from 'react-icons/io5'
@@ -16,12 +14,18 @@ import blur from '../assets/styles/equipe.module.css'
 export default function Aside() {
   const router = useRouter()
   const [currentUrl, setCurrentUrl] = useState('')
-  const [closedAside, setClosedAside] = useState(() => {
-    const storedValue = localStorage.getItem('closedAside')
-    return storedValue !== null ? storedValue === 'true' : false
-  })
+  const [closedAside, setClosedAside] = useState(false)
   const [showEditCompany, setShowEditCompany] = useState(false)
   const [showBlur, setShowBlur] = useState(false)
+
+  useEffect(() => {
+    const storedValue = localStorage.getItem('closedAside')
+    setClosedAside(storedValue !== null ? storedValue === 'true' : false)
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('closedAside', closedAside.toString())
+  }, [closedAside])
 
   useEffect(() => {
     if (showEditCompany) {

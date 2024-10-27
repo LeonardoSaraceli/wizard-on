@@ -5,7 +5,6 @@ import { IoIosArrowDown } from 'react-icons/io'
 import { FaMagnifyingGlass } from 'react-icons/fa6'
 import { FiEdit2 } from 'react-icons/fi'
 import { RiDeleteBin7Line } from 'react-icons/ri'
-import Aside from '@/components/Aside'
 import Header from '@/components/Header'
 import style from '../../assets/styles/equipe.module.css'
 import DateSelector from '@/components/DateSelector'
@@ -13,9 +12,19 @@ import LocationSelector from '@/components/LocationSelector'
 import EnrollSelector from '@/components/EnrollSelector'
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import ViewLead from '@/components/ViewLead'
-import EditLead from '@/components/EditLead'
-import DeleteLead from '@/components/DeleteLead'
+const ViewLead = dynamic(() => import('@/components/ViewLead'), {
+  ssr: false,
+})
+const EditLead = dynamic(() => import('@/components/EditLead'), {
+  ssr: false,
+})
+const DeleteLead = dynamic(() => import('@/components/DeleteLead'), {
+  ssr: false,
+})
+import dynamic from 'next/dynamic'
+const Aside = dynamic(() => import('@/components/Aside'), {
+  ssr: false,
+})
 
 interface Lead {
   id: number

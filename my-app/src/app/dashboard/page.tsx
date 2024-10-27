@@ -3,12 +3,22 @@
 import { FaRegCalendarAlt } from 'react-icons/fa'
 import { IoIosArrowDown } from 'react-icons/io'
 import style from '../../assets/styles/dashboard.module.css'
-import DateSelector from '@/components/DateSelector'
+const DateSelector = dynamic(() => import('@/components/DateSelector'), {
+  ssr: false,
+})
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
-import LocationSelector from '@/components/LocationSelector'
+const LocationSelector = dynamic(
+  () => import('@/components/LocationSelector'),
+  {
+    ssr: false,
+  }
+)
 import { useRouter } from 'next/navigation'
-import Aside from '@/components/Aside'
+const Aside = dynamic(() => import('@/components/Aside'), {
+  ssr: false,
+})
 import Header from '@/components/Header'
+import dynamic from 'next/dynamic'
 
 interface Lead {
   location: string

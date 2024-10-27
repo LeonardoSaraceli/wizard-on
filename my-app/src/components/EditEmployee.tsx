@@ -1,5 +1,3 @@
-'use client'
-
 import { FaPlus } from 'react-icons/fa6'
 import style from '../assets/styles/equipe.module.css'
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'

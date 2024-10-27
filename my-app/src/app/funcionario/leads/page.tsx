@@ -12,10 +12,28 @@ import LocationSelector from '@/components/LocationSelector'
 import EnrollSelector from '@/components/EnrollSelector'
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import AsideFuncionario from '@/components/AsideFuncionario'
-import CreateLead from '@/components/CreateLead'
-import EditLeadEmployee from '@/components/EditLeadEmployee'
-import ViewLeadEmployee from '@/components/ViewLeadEmployee'
+const AsideFuncionario = dynamic(
+  () => import('@/components/AsideFuncionario'),
+  {
+    ssr: false,
+  }
+)
+const CreateLead = dynamic(() => import('@/components/CreateLead'), {
+  ssr: false,
+})
+const EditLeadEmployee = dynamic(
+  () => import('@/components/EditLeadEmployee'),
+  {
+    ssr: false,
+  }
+)
+import dynamic from 'next/dynamic'
+const ViewLeadEmployee = dynamic(
+  () => import('@/components/ViewLeadEmployee'),
+  {
+    ssr: false,
+  }
+)
 
 interface Lead {
   id: number

@@ -1,5 +1,3 @@
-'use client'
-
 import { IoFunnelOutline } from 'react-icons/io5'
 import { HiMenu } from 'react-icons/hi'
 import { FaArrowRightLong } from 'react-icons/fa6'

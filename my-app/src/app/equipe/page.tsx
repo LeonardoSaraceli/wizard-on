@@ -1,6 +1,8 @@
 'use client'
 
-import Aside from '@/components/Aside'
+const Aside = dynamic(() => import('@/components/Aside'), {
+  ssr: false,
+})
 import style from '../../assets/styles/equipe.module.css'
 import Header from '@/components/Header'
 import { FaPlus } from 'react-icons/fa6'
@@ -13,10 +15,19 @@ import { RiDeleteBin7Line } from 'react-icons/ri'
 import { useCallback, useEffect, useState } from 'react'
 import OrderByFilter from '@/components/OrderByFilter'
 import { useRouter } from 'next/navigation'
-import ViewEmployee from '@/components/ViewEmployee'
-import EditEmployee from '@/components/EditEmployee'
-import DeleteEmployee from '@/components/DeleteEmployee'
-import CreateEmployee from '@/components/CreateEmployee'
+const ViewEmployee = dynamic(() => import('@/components/ViewEmployee'), {
+  ssr: false,
+})
+const EditEmployee = dynamic(() => import('@/components/EditEmployee'), {
+  ssr: false,
+})
+const DeleteEmployee = dynamic(() => import('@/components/DeleteEmployee'), {
+  ssr: false,
+})
+const CreateEmployee = dynamic(() => import('@/components/CreateEmployee'), {
+  ssr: false,
+})
+import dynamic from 'next/dynamic'
 
 interface Employee {
   id: number
