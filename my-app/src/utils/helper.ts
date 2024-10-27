@@ -340,3 +340,18 @@ export async function editCompany(
 
   return (await db.query(query, params)).rows
 }
+
+export async function verifyEmployeeLogin(cpf: string, password: string) {
+  const employee = await getEmployeeByCpf(cpf)
+
+  if (!employee.rowCount) {
+    return false
+  }
+
+  const match = await bcrypt.compare(
+    String(password),
+    String(employee.rows[0].password)
+  )
+
+  return !match ? false : employee.rows[0]
+}

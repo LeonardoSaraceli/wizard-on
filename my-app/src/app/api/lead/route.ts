@@ -55,6 +55,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const employeeId = tokenCheck.payload?.id
     const body = await req.json()
     const {
       location,
@@ -69,10 +70,9 @@ export async function POST(req: NextRequest) {
       city,
       level,
       interest,
-      employeeId,
     } = body
 
-    if (!location || !name || !phone || !interest || !employeeId) {
+    if (!location || !name || !phone || typeof interest === 'undefined') {
       return clientErrorHandler('Missing fields in request body', 400)
     }
 

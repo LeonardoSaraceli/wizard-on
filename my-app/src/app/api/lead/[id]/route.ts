@@ -70,7 +70,7 @@ export async function PUT(
       price,
     } = body
 
-    if (!location || !name || !phone || !interest) {
+    if (!location || !name || !phone || typeof interest === 'undefined') {
       return clientErrorHandler('Missing fields in request body', 400)
     }
 
