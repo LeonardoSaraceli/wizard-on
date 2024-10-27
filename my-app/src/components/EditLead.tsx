@@ -3,11 +3,17 @@ import style from '../assets/styles/leads.module.css'
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+interface EditLeadProps {
+  currentLeadId: number
+  setOpenEditLead: (show: boolean) => void
+  fetchLeads: () => void
+}
+
 export default function EditLead({
   currentLeadId,
   setOpenEditLead,
   fetchLeads,
-}) {
+}: EditLeadProps) {
   const router = useRouter()
   const [lead, setLead] = useState({
     name: '',

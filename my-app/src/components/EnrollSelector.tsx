@@ -1,14 +1,20 @@
 import style from '../assets/styles/equipe.module.css'
 
+interface EnrollSelectorProps {
+  setEnrollText: (show: string) => void
+  setOpenEnrollSelector: (show: boolean) => void
+  top: number
+}
+
 export default function EnrollSelector({
   setEnrollText,
   setOpenEnrollSelector,
   top,
-}) {
+}: EnrollSelectorProps) {
   return (
     <ul
       className={style.enrollSelector}
-      style={top ? { top: `${top}rem` } : undefined}
+      style={top && top !== 0 ? { top: `${top}rem` } : undefined}
     >
       <li
         className={style.enrollSelectorLi}

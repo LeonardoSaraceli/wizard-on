@@ -5,7 +5,11 @@ import { useRouter } from 'next/navigation'
 import { CiCircleInfo } from 'react-icons/ci'
 import error from '../assets/styles/form.module.css'
 
-export default function EditCompany({ setShowEditCompany }) {
+interface EditCompanyProps {
+  setShowEditCompany: (show: boolean) => void
+}
+
+export default function EditCompany({ setShowEditCompany }: EditCompanyProps) {
   const router = useRouter()
 
   const [company, setCompany] = useState({

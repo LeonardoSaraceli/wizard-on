@@ -10,6 +10,11 @@ import {
   serverErrorHandler,
   updateEmployee,
 } from '@/utils/helper'
+import { JwtPayload } from 'jsonwebtoken'
+
+interface JwtPayloadWithId extends JwtPayload {
+  id: number
+}
 
 export async function GET(
   req: NextRequest,
@@ -53,7 +58,7 @@ export async function PUT(
   }
 
   try {
-    const companyId = tokenCheck.payload?.id
+    const companyId = (tokenCheck.payload as JwtPayloadWithId).id
     const body = await req.json()
     const { cpf, password, name, role } = body
     const { id } = params

@@ -3,11 +3,17 @@ import style from '../assets/styles/equipe.module.css'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+interface DeleteLeadProps {
+  currentLeadId: number
+  setOpenDeleteLead: (show: boolean) => void
+  fetchLeads: () => void
+}
+
 export default function DeleteLead({
   currentLeadId,
   setOpenDeleteLead,
   fetchLeads,
-}) {
+}: DeleteLeadProps) {
   const router = useRouter()
 
   const [currentUrl, setCurrentUrl] = useState('')

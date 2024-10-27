@@ -54,8 +54,13 @@ export default function Dashboard() {
     },
   })
 
-  const compareDates = (startDate, endDate, date) => {
-    const formatDate = (d) => `${d.day}/${d.month}/${d.year}`
+  const compareDates = (
+    startDate: { day: number; month: number; year: number },
+    endDate: { day: number; month: number; year: number },
+    date: Date
+  ) => {
+    const formatDate = (d: { day: number; month: number; year: number }) =>
+      `${d.day}/${d.month}/${d.year}`
 
     const today = {
       day: date.getDate(),
@@ -124,7 +129,7 @@ export default function Dashboard() {
   useEffect(() => {
     const text = compareDates(query.startDate, query.endDate, date)
     setDateText(text)
-  }, [query])
+  }, [query, date])
 
   const [location, setLocation] = useState('')
 

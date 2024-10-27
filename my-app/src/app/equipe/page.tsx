@@ -87,9 +87,9 @@ export default function Equipe() {
     fecthEmployees()
   }, [fecthEmployees])
 
-  const employeeNameEllipsis = (name: string) => {
+  const employeeNameEllipsis = (name: string): string => {
     if (!name) {
-      return
+      return ''
     }
 
     if (name.trim().length >= 30) {

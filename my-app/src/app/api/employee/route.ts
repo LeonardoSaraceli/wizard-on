@@ -9,6 +9,11 @@ import {
   omitPassword,
   serverErrorHandler,
 } from '@/utils/helper'
+import { JwtPayload } from 'jsonwebtoken'
+
+interface JwtPayloadWithId extends JwtPayload {
+  id: number
+}
 
 export async function GET(req: NextRequest) {
   const tokenCheck = verifyToken(req)
@@ -20,14 +25,17 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
     const orderBy = searchParams.get('orderBy')
-    const companyId = tokenCheck.payload?.id
+    const companyId = (tokenCheck.payload as JwtPayloadWithId).id
     const company = await getCompanyById(companyId)
 
     if (!company.rowCount) {
       return clientErrorHandler('Company not found', 404)
     }
 
-    const employees = await getAllEmployeesByCompanyId(companyId, orderBy)
+    const employees = await getAllEmployeesByCompanyId(
+      companyId,
+      String(orderBy)
+    )
     const employeesWithoutPassword = omitPassword(employees.rows)
 
     return new Response(
@@ -49,7 +57,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const companyId = tokenCheck.payload?.id
+    const companyId = (tokenCheck.payload as JwtPayloadWithId).id
     const body = await req.json()
     const { cpf, password, name, role } = body
 

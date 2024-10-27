@@ -5,7 +5,12 @@ import {
   omitPassword,
   serverErrorHandler,
 } from '@/utils/helper'
+import { JwtPayload } from 'jsonwebtoken'
 import { NextRequest } from 'next/server'
+
+interface JwtPayloadWithId extends JwtPayload {
+  id: number
+}
 
 export async function GET(req: NextRequest) {
   const tokenCheck = verifyToken(req)
@@ -15,7 +20,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const id = tokenCheck.payload?.id
+    const id = (tokenCheck.payload as JwtPayloadWithId).id
     const company = await getCompanyById(id)
 
     if (!company.rowCount) {

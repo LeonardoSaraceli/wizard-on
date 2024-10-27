@@ -2,11 +2,17 @@ import { GrAscend } from 'react-icons/gr'
 import { GrDescend } from 'react-icons/gr'
 import style from '../assets/styles/equipe.module.css'
 
+interface OrderByFilterProps {
+  setOrder: (show: string) => void
+  setOpenOrderByFilter: (show: boolean) => void
+  setInputText: (show: string) => void
+}
+
 export default function OrderByFilter({
   setOrder,
   setOpenOrderByFilter,
   setInputText,
-}) {
+}: OrderByFilterProps) {
   return (
     <div className={style.orderByFilter}>
       <ul className={style.orderByFilterUl}>

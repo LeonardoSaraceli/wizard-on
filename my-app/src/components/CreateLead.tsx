@@ -3,7 +3,15 @@ import { ChangeEvent, FormEvent, useState } from 'react'
 import style from '../assets/styles/equipe.module.css'
 import { useRouter } from 'next/navigation'
 
-export default function CreateLead({ setShowCreateLead, fetchLeads }) {
+interface CreateLeadProps {
+  setShowCreateLead: (show: boolean) => void
+  fetchLeads: () => void
+}
+
+export default function CreateLead({
+  setShowCreateLead,
+  fetchLeads,
+}: CreateLeadProps) {
   const router = useRouter()
 
   const [formData, setFormData] = useState({

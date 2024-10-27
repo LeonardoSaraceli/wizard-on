@@ -2,11 +2,17 @@ import { FaPlus } from 'react-icons/fa6'
 import style from '../assets/styles/equipe.module.css'
 import { useRouter } from 'next/navigation'
 
+interface DeleteEmployeeProps {
+  currentEmployeeId: number
+  setShowDeleteEmployee: (show: boolean) => void
+  fecthEmployees: () => void
+}
+
 export default function DeleteEmployee({
   currentEmployeeId,
   setShowDeleteEmployee,
   fecthEmployees,
-}) {
+}: DeleteEmployeeProps) {
   const router = useRouter()
 
   const handleDelete = () => {

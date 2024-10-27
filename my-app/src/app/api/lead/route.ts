@@ -8,7 +8,12 @@ import {
   getMostRecentLead,
   serverErrorHandler,
 } from '@/utils/helper'
+import { JwtPayload } from 'jsonwebtoken'
 import { NextRequest } from 'next/server'
+
+interface JwtPayloadWithId extends JwtPayload {
+  id: number
+}
 
 export async function GET(req: NextRequest) {
   const tokenCheck = verifyToken(req)
@@ -19,7 +24,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const { searchParams } = new URL(req.url)
-    const companyId = tokenCheck.payload.id
+    const companyId = (tokenCheck.payload as JwtPayloadWithId).id
     const startDate = searchParams.get('startDate')
     const endDate = searchParams.get('endDate')
     const location = searchParams.get('location')
@@ -55,7 +60,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const employeeId = tokenCheck.payload?.id
+    const employeeId = (tokenCheck.payload as JwtPayloadWithId).id
     const body = await req.json()
     const {
       location,

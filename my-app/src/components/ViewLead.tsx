@@ -3,7 +3,15 @@ import style from '../assets/styles/leads.module.css'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function ViewLead({ currentLeadId, setOpenViewLead }) {
+interface ViewLeadProps {
+  currentLeadId: number
+  setOpenViewLead: (show: boolean) => void
+}
+
+export default function ViewLead({
+  currentLeadId,
+  setOpenViewLead,
+}: ViewLeadProps) {
   const router = useRouter()
   const [lead, setLead] = useState({
     name: '',

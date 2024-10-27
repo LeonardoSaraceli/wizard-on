@@ -3,7 +3,15 @@ import { useEffect, useState } from 'react'
 import style from '../assets/styles/equipe.module.css'
 import { useRouter } from 'next/navigation'
 
-export default function ViewLeadEmployee({ setOpenViewLead, currentLeadId }) {
+interface ViewLeadEmployeeProps {
+  setOpenViewLead: (show: boolean) => void
+  currentLeadId: number
+}
+
+export default function ViewLeadEmployee({
+  setOpenViewLead,
+  currentLeadId,
+}: ViewLeadEmployeeProps) {
   const router = useRouter()
 
   const [lead, setLead] = useState({

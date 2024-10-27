@@ -13,16 +13,51 @@ import ViewLead from './ViewLead'
 import EditLead from './EditLead'
 import DeleteLead from './DeleteLead'
 
+interface Employee {
+  id: number
+  name: string
+  cpf: string
+  role: string
+}
+
+interface Lead {
+  id: string
+  name: string
+  location: string
+  enroll: boolean
+  interest: boolean
+  city: string
+}
+
+interface Query {
+  startDate: {
+    day: number
+    month: number
+    year: number
+  }
+  endDate: {
+    day: number
+    month: number
+    year: number
+  }
+}
+
+interface ViewEmployeeProps {
+  currentEmployeeId: number
+  setShowViewEmployee: (show: boolean) => void
+  employeeNameEllipsis: (name: string) => string
+}
+
 export default function ViewEmployee({
   currentEmployeeId,
   setShowViewEmployee,
   employeeNameEllipsis,
-}) {
+}: ViewEmployeeProps) {
   const date = new Date()
 
   const router = useRouter()
-  const [employee, setEmployee] = useState([])
-  const [leads, setLeads] = useState([])
+  const [employee, setEmployee] = useState<Employee | null>(null)
+  const [leads, setLeads] = useState<Lead[]>([])
   const [query, setQuery] = useState({
     startDate: {
       day: 1,
@@ -57,8 +92,13 @@ export default function ViewEmployee({
     }
   }, [openViewLead, openEditLead, openDeleteLead])
 
-  const compareDates = (startDate, endDate, date) => {
-    const formatDate = (d) => `${d.day}/${d.month}/${d.year}`
+  const compareDates = (
+    startDate: { day: number; month: number; year: number },
+    endDate: { day: number; month: number; year: number },
+    date: Date
+  ) => {
+    const formatDate = (d: { day: number; month: number; year: number }) =>
+      `${d.day}/${d.month}/${d.year}`
 
     const today = {
       day: date.getDate(),
@@ -131,7 +171,10 @@ export default function ViewEmployee({
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    const [key, subKey] = name.split('.')
+    const [key, subKey] = name.split('.') as [
+      keyof Query,
+      keyof Query[keyof Query]
+    ]
 
     setQuery({
       ...query,
@@ -245,7 +288,7 @@ export default function ViewEmployee({
             <span className={style.viewEmployeeDataDivNameDivSpan}>Nome</span>
 
             <p className={style.viewEmployeeDataDivNameDivP}>
-              {employeeNameEllipsis(employee.name)}
+              {employee ? employeeNameEllipsis(employee.name) : 'Loading...'}
             </p>
           </div>
         </div>
@@ -257,7 +300,7 @@ export default function ViewEmployee({
             <span className={style.viewEmployeeDataDivNameDivSpan}>CPF</span>
 
             <p className={style.viewEmployeeDataDivNameDivP}>
-              {employeeNameEllipsis(employee.cpf)}3
+              {employee ? employeeNameEllipsis(employee.cpf) : 'Loading...'}
             </p>
           </div>
 
@@ -265,7 +308,7 @@ export default function ViewEmployee({
             <span className={style.viewEmployeeDataDivNameDivSpan}>Função</span>
 
             <p className={style.viewEmployeeDataDivNameDivP}>
-              {employeeNameEllipsis(employee.role)}
+              {employee ? employeeNameEllipsis(employee.role) : 'Loading...'}
             </p>
           </div>
         </div>
@@ -386,6 +429,7 @@ export default function ViewEmployee({
             <EnrollSelector
               setEnrollText={setEnrollText}
               setOpenEnrollSelector={setOpenEnrollSelector}
+              top={0}
             />
           )}
         </ul>
@@ -478,14 +522,14 @@ export default function ViewEmployee({
 
       {openViewLead && (
         <ViewLead
-          currentLeadId={currentLeadId}
+          currentLeadId={Number(currentLeadId)}
           setOpenViewLead={setOpenViewLead}
         />
       )}
 
       {openEditLead && (
         <EditLead
-          currentLeadId={currentLeadId}
+          currentLeadId={Number(currentLeadId)}
           setOpenEditLead={setOpenEditLead}
           fetchLeads={fetchLeads}
         />
@@ -493,7 +537,7 @@ export default function ViewEmployee({
 
       {openDeleteLead && (
         <DeleteLead
-          currentLeadId={currentLeadId}
+          currentLeadId={Number(currentLeadId)}
           setOpenDeleteLead={setOpenDeleteLead}
           fetchLeads={fetchLeads}
         />

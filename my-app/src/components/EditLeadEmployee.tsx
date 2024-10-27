@@ -3,11 +3,17 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import style from '../assets/styles/equipe.module.css'
 import { useRouter } from 'next/navigation'
 
+interface EditLeadEmployeeProps {
+  currentLeadId: number
+  setOpenEditLead: (show: boolean) => void
+  fetchLeads: () => void
+}
+
 export default function EditLeadEmployee({
   setOpenEditLead,
   fetchLeads,
   currentLeadId,
-}) {
+}: EditLeadEmployeeProps) {
   const router = useRouter()
 
   const [formData, setFormData] = useState({

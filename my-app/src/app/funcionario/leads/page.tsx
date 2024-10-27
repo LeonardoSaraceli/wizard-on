@@ -17,11 +17,32 @@ import CreateLead from '@/components/CreateLead'
 import EditLeadEmployee from '@/components/EditLeadEmployee'
 import ViewLeadEmployee from '@/components/ViewLeadEmployee'
 
+interface Lead {
+  id: number
+  name: string
+  location: string
+  enroll: boolean
+  interest: boolean
+}
+
+interface Query {
+  startDate: {
+    day: number
+    month: number
+    year: number
+  }
+  endDate: {
+    day: number
+    month: number
+    year: number
+  }
+}
+
 export default function Leads() {
   const router = useRouter()
   const date = useMemo(() => new Date(), [])
 
-  const [query, setQuery] = useState({
+  const [query, setQuery] = useState<Query>({
     startDate: {
       day: 1,
       month: date.getMonth() + 1,
@@ -37,11 +58,11 @@ export default function Leads() {
   const [openLocationSelector, setOpenLocationSelector] = useState(false)
   const [openEnrollSelector, setOpenEnrollSelector] = useState(false)
   const [dateText, setDateText] = useState('')
-  const [location, setLocation] = useState('')
+  const [location, setLocation] = useState<string>('')
   const [cities, setCities] = useState<string[]>([])
   const [search, setSearch] = useState('')
   const [enrollText, setEnrollText] = useState('')
-  const [leads, setLeads] = useState([])
+  const [leads, setLeads] = useState<Lead[]>([])
   const [currentLeadId, setCurrentLeadId] = useState(0)
   const [openViewLead, setOpenViewLead] = useState(false)
   const [openEditLead, setOpenEditLead] = useState(false)
@@ -57,8 +78,13 @@ export default function Leads() {
     }
   }, [openEditLead, openViewLead, showCreateEmployee])
 
-  const compareDates = (startDate, endDate, date: Date) => {
-    const formatDate = (d) => `${d.day}/${d.month}/${d.year}`
+  const compareDates = (
+    startDate: { day: number; month: number; year: number },
+    endDate: { day: number; month: number; year: number },
+    date: Date
+  ) => {
+    const formatDate = (d: { day: number; month: number; year: number }) =>
+      `${d.day}/${d.month}/${d.year}`
 
     const today = {
       day: date.getDate(),
@@ -229,7 +255,10 @@ export default function Leads() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    const [key, subKey] = name.split('.')
+    const [key, subKey] = name.split('.') as [
+      keyof Query,
+      keyof Query[keyof Query]
+    ]
 
     setQuery({
       ...query,

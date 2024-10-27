@@ -5,10 +5,15 @@ import style from '../assets/styles/equipe.module.css'
 import error from '../assets/styles/form.module.css'
 import { useRouter } from 'next/navigation'
 
+interface CreateEmployeeProps {
+  setShowCreateEmployee: (show: boolean) => void
+  fecthEmployees: () => void
+}
+
 export default function CreateEmployee({
   setShowCreateEmployee,
   fecthEmployees,
-}) {
+}: CreateEmployeeProps) {
   const router = useRouter()
 
   const [formData, setFormData] = useState({

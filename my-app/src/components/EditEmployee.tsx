@@ -5,10 +5,15 @@ import { useRouter } from 'next/navigation'
 import { CiCircleInfo } from 'react-icons/ci'
 import error from '../assets/styles/form.module.css'
 
+interface EditEmployeeProps {
+  currentEmployeeId: number
+  setShowEditEmployee: (show: boolean) => void
+}
+
 export default function EditEmployee({
   currentEmployeeId,
   setShowEditEmployee,
-}) {
+}: EditEmployeeProps) {
   const router = useRouter()
   const [employee, setEmployee] = useState({
     name: '',
