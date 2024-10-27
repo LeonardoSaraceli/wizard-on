@@ -134,16 +134,16 @@ export default function Dashboard() {
   const [location, setLocation] = useState('')
 
   const [closedAside, setClosedAside] = useState<boolean | string>('')
-  const [token, setToken] = useState<string | null>('')
+  const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const closedAsideValue = localStorage.getItem('closedAside')
+      const closedAsideValue = window.localStorage.getItem('closedAside')
       setClosedAside(closedAsideValue === 'true')
-      const tokenValue = localStorage.getItem('jwt')
+      const tokenValue = window.localStorage.getItem('jwt')
       setToken(tokenValue)
     }
-  }, [])
+  }, [token])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target

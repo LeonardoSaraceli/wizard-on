@@ -69,16 +69,16 @@ export default function Leads() {
   const [openDeleteLead, setOpenDeleteLead] = useState(false)
   const [showBlur, setShowBlur] = useState(false)
   const [closedAside, setClosedAside] = useState<boolean | string>('')
-  const [token, setToken] = useState<string | null>('')
+  const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const closedAsideValue = localStorage.getItem('closedAside')
+      const closedAsideValue = window.localStorage.getItem('closedAside')
       setClosedAside(closedAsideValue === 'true')
-      const tokenValue = localStorage.getItem('jwt')
+      const tokenValue = window.localStorage.getItem('jwt')
       setToken(tokenValue)
     }
-  }, [])
+  }, [closedAside, token])
 
   useEffect(() => {
     if (openViewLead || openEditLead || openDeleteLead) {

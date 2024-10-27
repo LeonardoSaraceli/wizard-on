@@ -56,14 +56,14 @@ export default function Equipe() {
     showCreateEmployee,
   ])
 
-  const [token, setToken] = useState<string | null>('')
+  const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const tokenValue = localStorage.getItem('jwt')
+      const tokenValue = window.localStorage.getItem('jwt')
       setToken(tokenValue)
     }
-  }, [])
+  }, [token])
 
   const fecthEmployees = useCallback(() => {
     fetch(

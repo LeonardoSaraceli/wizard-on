@@ -176,7 +176,7 @@ export default function Leads() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const closedAsideValue = localStorage.getItem('closedAside')
+      const closedAsideValue = window.localStorage.getItem('closedAside')
       setClosedAside(closedAsideValue === 'true')
     }
   }, [])
