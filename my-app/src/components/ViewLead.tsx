@@ -23,6 +23,11 @@ export default function ViewLead({ currentLeadId, setOpenViewLead }) {
     employeeid: '',
   })
   const [employee, setEmployee] = useState({ name: '' })
+  const [currentUrl, setCurrentUrl] = useState('')
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href)
+  }, [])
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_URL}/api/lead/${currentLeadId}`, {
@@ -77,7 +82,10 @@ export default function ViewLead({ currentLeadId, setOpenViewLead }) {
   }, [lead, router])
 
   return (
-    <div className={style.viewLead}>
+    <div
+      className={style.viewLead}
+      style={currentUrl.includes('equipe') ? { zIndex: '3' } : undefined}
+    >
       <div className={style.viewLeadDiv}>
         <span className={style.viewLeadDivSpan}>Dados</span>
 

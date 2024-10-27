@@ -4,11 +4,14 @@ import { IoIosArrowDown } from 'react-icons/io'
 import { FiEdit2 } from 'react-icons/fi'
 import { RiDeleteBin7Line } from 'react-icons/ri'
 import style from '../assets/styles/equipe.module.css'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import DateSelector from './DateSelector'
 import LocationSelector from './LocationSelector'
 import EnrollSelector from './EnrollSelector'
+import ViewLead from './ViewLead'
+import EditLead from './EditLead'
+import DeleteLead from './DeleteLead'
 
 export default function ViewEmployee({
   currentEmployeeId,
@@ -40,6 +43,19 @@ export default function ViewEmployee({
   const [cities, setCities] = useState<string[]>([])
   const [search, setSearch] = useState('')
   const [enrollText, setEnrollText] = useState('')
+  const [currentLeadId, setCurrentLeadId] = useState('')
+  const [openViewLead, setOpenViewLead] = useState(false)
+  const [openEditLead, setOpenEditLead] = useState(false)
+  const [openDeleteLead, setOpenDeleteLead] = useState(false)
+  const [blur, setBlur] = useState(false)
+
+  useEffect(() => {
+    if (openViewLead || openEditLead || openDeleteLead) {
+      setBlur(true)
+    } else {
+      setBlur(false)
+    }
+  }, [openViewLead, openEditLead, openDeleteLead])
 
   const compareDates = (startDate, endDate, date) => {
     const formatDate = (d) => `${d.day}/${d.month}/${d.year}`
@@ -148,7 +164,7 @@ export default function ViewEmployee({
       })
   }, [currentEmployeeId, router])
 
-  useEffect(() => {
+  const fetchLeads = useCallback(() => {
     fetch(
       `${
         process.env.NEXT_PUBLIC_URL
@@ -193,6 +209,10 @@ export default function ViewEmployee({
     location,
     currentEmployeeId,
   ])
+
+  useEffect(() => {
+    fetchLeads()
+  }, [fetchLeads])
 
   useEffect(() => {
     const newCities: string[] = []
@@ -421,15 +441,33 @@ export default function ViewEmployee({
                   ></div>
                 </li>
 
-                <li className={style.viewEmployeeLeadsListActionsLi}>
+                <li
+                  className={style.viewEmployeeLeadsListActionsLi}
+                  onClick={() => [
+                    setCurrentLeadId(lead.id),
+                    setOpenViewLead(true),
+                  ]}
+                >
                   <FaRegEye className={style.funcionariosUlLiDivSvg} />
                 </li>
 
-                <li className={style.viewEmployeeLeadsListActionsLi}>
+                <li
+                  className={style.viewEmployeeLeadsListActionsLi}
+                  onClick={() => [
+                    setCurrentLeadId(lead.id),
+                    setOpenEditLead(true),
+                  ]}
+                >
                   <FiEdit2 className={style.funcionariosUlLiDivSvg} />
                 </li>
 
-                <li className={style.viewEmployeeLeadsListActionsLi}>
+                <li
+                  className={style.viewEmployeeLeadsListActionsLi}
+                  onClick={() => [
+                    setCurrentLeadId(lead.id),
+                    setOpenDeleteLead(true),
+                  ]}
+                >
                   <RiDeleteBin7Line className={style.funcionariosUlLiDivSvg} />
                 </li>
               </ul>
@@ -437,6 +475,31 @@ export default function ViewEmployee({
           ))}
         </ul>
       </div>
+
+      {openViewLead && (
+        <ViewLead
+          currentLeadId={currentLeadId}
+          setOpenViewLead={setOpenViewLead}
+        />
+      )}
+
+      {openEditLead && (
+        <EditLead
+          currentLeadId={currentLeadId}
+          setOpenEditLead={setOpenEditLead}
+          fetchLeads={fetchLeads}
+        />
+      )}
+
+      {openDeleteLead && (
+        <DeleteLead
+          currentLeadId={currentLeadId}
+          setOpenDeleteLead={setOpenDeleteLead}
+          fetchLeads={fetchLeads}
+        />
+      )}
+
+      {blur && <div className={style.blur2}></div>}
     </div>
   )
 }

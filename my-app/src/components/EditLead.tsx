@@ -45,6 +45,12 @@ export default function EditLead({
     employeeid: lead.employeeid || '',
   })
 
+  const [currentUrl, setCurrentUrl] = useState('')
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href)
+  }, [])
+
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_URL}/api/lead/${currentLeadId}`, {
       headers: {
@@ -150,7 +156,10 @@ export default function EditLead({
   }, [lead])
 
   return (
-    <div className={style.viewLead}>
+    <div
+      className={style.viewLead}
+      style={currentUrl.includes('equipe') ? { zIndex: '3' } : undefined}
+    >
       <div className={style.viewLeadDiv}>
         <span className={style.viewLeadDivSpan}>Dados</span>
 

@@ -11,6 +11,7 @@ import Aside from '@/components/Aside'
 import Header from '@/components/Header'
 
 interface Lead {
+  location: string
   city: string
   price: number | null
   enroll: boolean
@@ -196,8 +197,8 @@ export default function Dashboard() {
     const newCities: string[] = []
 
     leads.forEach((lead) => {
-      if (!newCities.includes(lead.city)) {
-        newCities.push(lead.city)
+      if (!newCities.includes(lead.location)) {
+        newCities.push(lead.location)
       }
     })
 

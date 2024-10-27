@@ -409,6 +409,17 @@
   left: 0;
 }
 
+.blur2 {
+  z-index: 2;
+  background-color: black;
+  opacity: 50%;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
 .enrollSelector {
   display: grid;
   grid-template-rows: repeat(3, max-content);

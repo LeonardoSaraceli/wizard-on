@@ -1,6 +1,7 @@
 import { FaPlus } from 'react-icons/fa6'
 import style from '../assets/styles/equipe.module.css'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function DeleteLead({
   currentLeadId,
@@ -8,6 +9,12 @@ export default function DeleteLead({
   fetchLeads,
 }) {
   const router = useRouter()
+
+  const [currentUrl, setCurrentUrl] = useState('')
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href)
+  }, [])
 
   const handleDelete = () => {
     fetch(`${process.env.NEXT_PUBLIC_URL}/api/lead/${currentLeadId}`, {
@@ -34,7 +41,10 @@ export default function DeleteLead({
   }
 
   return (
-    <div className={style.deleteEmployee}>
+    <div
+      className={style.deleteEmployee}
+      style={currentUrl.includes('equipe') ? { zIndex: '3' } : undefined}
+    >
       <FaPlus
         className={style.viewEmployeeExit}
         onClick={() => setOpenDeleteLead(false)}

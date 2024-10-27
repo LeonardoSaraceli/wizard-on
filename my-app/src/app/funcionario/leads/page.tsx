@@ -208,8 +208,8 @@ export default function Leads() {
   useEffect(() => {
     const newCities: string[] = []
     leads.forEach((lead) => {
-      if (!newCities.includes(lead.city)) {
-        newCities.push(lead.city)
+      if (!newCities.includes(lead.location)) {
+        newCities.push(lead.location)
       }
     })
     setCities(newCities)
