@@ -4,7 +4,7 @@ import { FaRegCalendarAlt } from 'react-icons/fa'
 import { IoIosArrowDown } from 'react-icons/io'
 import style from '../../assets/styles/dashboard.module.css'
 import DateSelector from '@/components/DateSelector'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import LocationSelector from '@/components/LocationSelector'
 import { useRouter } from 'next/navigation'
 import Aside from '@/components/Aside'
@@ -39,7 +39,7 @@ export default function Dashboard() {
   const [dateText, setDateText] = useState('Este mês')
   const [meta, setMeta] = useState(0)
 
-  const date = new Date()
+  const date = useMemo(() => new Date(), [])
 
   const [query, setQuery] = useState<Query>({
     startDate: {

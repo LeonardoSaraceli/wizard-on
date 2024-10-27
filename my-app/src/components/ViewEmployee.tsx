@@ -4,7 +4,7 @@ import { IoIosArrowDown } from 'react-icons/io'
 import { FiEdit2 } from 'react-icons/fi'
 import { RiDeleteBin7Line } from 'react-icons/ri'
 import style from '../assets/styles/equipe.module.css'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import DateSelector from './DateSelector'
 import LocationSelector from './LocationSelector'
@@ -53,7 +53,7 @@ export default function ViewEmployee({
   setShowViewEmployee,
   employeeNameEllipsis,
 }: ViewEmployeeProps) {
-  const date = new Date()
+  const date = useMemo(() => new Date(), [])
 
   const router = useRouter()
   const [employee, setEmployee] = useState<Employee | null>(null)

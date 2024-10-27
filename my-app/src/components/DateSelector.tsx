@@ -1,6 +1,19 @@
 import style from '../assets/styles/dashboard.module.css'
 import { ChangeEvent } from 'react'
 
+interface Query {
+  startDate: {
+    day: number
+    month: number
+    year: number
+  }
+  endDate: {
+    day: number
+    month: number
+    year: number
+  }
+}
+
 interface DateSelectorProps {
   startDate: { day: number; month: number; year: number }
   endDate: { day: number; month: number; year: number }
@@ -9,7 +22,7 @@ interface DateSelectorProps {
   setOpenDateSelector: (open: boolean) => void
   setDateText: (text: string) => void
   top: number
-  setQuery: (query: any) => void
+  setQuery: (query: Query) => void
 }
 
 export default function DateSelector({
