@@ -172,6 +172,13 @@ export default function Leads() {
       })
   }, [router])
 
+  const [closedAside, setClosedAside] = useState<boolean | string>('')
+
+  useEffect(() => {
+    const closedAsideValue = localStorage.getItem('closedAside')
+    setClosedAside(closedAsideValue === 'true')
+  }, [])
+
   useEffect(() => {
     const text = compareDates(query.startDate, query.endDate, date)
     setDateText(text)
@@ -368,11 +375,7 @@ export default function Leads() {
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
                   top={19.8}
-                  right={
-                    localStorage.getItem('closedAside') === 'false'
-                      ? 30.4
-                      : 33.4
-                  }
+                  right={closedAside === 'false' ? 30.4 : 33.4}
                 />
               )}
 

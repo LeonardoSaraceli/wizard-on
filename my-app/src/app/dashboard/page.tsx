@@ -133,7 +133,12 @@ export default function Dashboard() {
 
   const [location, setLocation] = useState('')
 
-  const closedAside = localStorage.getItem('closedAside')
+  const [closedAside, setClosedAside] = useState<boolean | string>('')
+
+  useEffect(() => {
+    const closedAsideValue = localStorage.getItem('closedAside')
+    setClosedAside(closedAsideValue === 'true')
+  }, [])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
