@@ -68,7 +68,17 @@ export default function Leads() {
   const [openEditLead, setOpenEditLead] = useState(false)
   const [openDeleteLead, setOpenDeleteLead] = useState(false)
   const [showBlur, setShowBlur] = useState(false)
-  const closedAside = localStorage.getItem('closedAside')
+  const [closedAside, setClosedAside] = useState<boolean | string>('')
+  const [token, setToken] = useState<string | null>('')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const closedAsideValue = localStorage.getItem('closedAside')
+      setClosedAside(closedAsideValue === 'true')
+      const tokenValue = localStorage.getItem('jwt')
+      setToken(tokenValue)
+    }
+  }, [])
 
   useEffect(() => {
     if (openViewLead || openEditLead || openDeleteLead) {
@@ -156,8 +166,6 @@ export default function Leads() {
   }, [date, query])
 
   const fetchLeads = useCallback(() => {
-    const token = localStorage.getItem('jwt')
-
     fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/lead?${
         query.startDate.day && query.startDate.month && query.startDate.year

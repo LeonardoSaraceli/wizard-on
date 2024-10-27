@@ -56,9 +56,16 @@ export default function Equipe() {
     showCreateEmployee,
   ])
 
-  const fecthEmployees = useCallback(() => {
-    const token = localStorage.getItem('jwt')
+  const [token, setToken] = useState<string | null>('')
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const tokenValue = localStorage.getItem('jwt')
+      setToken(tokenValue)
+    }
+  }, [])
+
+  const fecthEmployees = useCallback(() => {
     fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/employee${
         order ? `?orderBy=${order}` : ''

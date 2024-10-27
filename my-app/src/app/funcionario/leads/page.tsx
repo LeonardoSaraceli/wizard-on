@@ -175,8 +175,10 @@ export default function Leads() {
   const [closedAside, setClosedAside] = useState<boolean | string>('')
 
   useEffect(() => {
-    const closedAsideValue = localStorage.getItem('closedAside')
-    setClosedAside(closedAsideValue === 'true')
+    if (typeof window !== 'undefined') {
+      const closedAsideValue = localStorage.getItem('closedAside')
+      setClosedAside(closedAsideValue === 'true')
+    }
   }, [])
 
   useEffect(() => {

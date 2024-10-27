@@ -134,10 +134,15 @@ export default function Dashboard() {
   const [location, setLocation] = useState('')
 
   const [closedAside, setClosedAside] = useState<boolean | string>('')
+  const [token, setToken] = useState<string | null>('')
 
   useEffect(() => {
-    const closedAsideValue = localStorage.getItem('closedAside')
-    setClosedAside(closedAsideValue === 'true')
+    if (typeof window !== 'undefined') {
+      const closedAsideValue = localStorage.getItem('closedAside')
+      setClosedAside(closedAsideValue === 'true')
+      const tokenValue = localStorage.getItem('jwt')
+      setToken(tokenValue)
+    }
   }, [])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -159,8 +164,6 @@ export default function Dashboard() {
   const [leads, setLeads] = useState<Lead[]>([])
 
   useEffect(() => {
-    const token = localStorage.getItem('jwt')
-
     fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/lead?${
         query.startDate.day && query.startDate.month && query.startDate.year
