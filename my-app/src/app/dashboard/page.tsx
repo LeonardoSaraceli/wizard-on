@@ -133,6 +133,8 @@ export default function Dashboard() {
 
   const [location, setLocation] = useState('')
 
+  const closedAside = localStorage.getItem('closedAside')
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     const [key, subKey] = name.split('.') as [
@@ -152,6 +154,8 @@ export default function Dashboard() {
   const [leads, setLeads] = useState<Lead[]>([])
 
   useEffect(() => {
+    const token = localStorage.getItem('jwt')
+
     fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/lead?${
         query.startDate.day && query.startDate.month && query.startDate.year
@@ -179,7 +183,7 @@ export default function Dashboard() {
       {
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          authorization: `Bearer ${token}`,
         },
       }
     )
@@ -313,11 +317,7 @@ export default function Dashboard() {
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
                   top={20}
-                  right={
-                    localStorage.getItem('closedAside') === 'false'
-                      ? 31.8
-                      : 34.8
-                  }
+                  right={closedAside === 'false' ? 31.8 : 34.8}
                 />
               )}
 

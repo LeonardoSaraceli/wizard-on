@@ -68,6 +68,7 @@ export default function Leads() {
   const [openEditLead, setOpenEditLead] = useState(false)
   const [openDeleteLead, setOpenDeleteLead] = useState(false)
   const [showBlur, setShowBlur] = useState(false)
+  const closedAside = localStorage.getItem('closedAside')
 
   useEffect(() => {
     if (openViewLead || openEditLead || openDeleteLead) {
@@ -155,6 +156,8 @@ export default function Leads() {
   }, [date, query])
 
   const fetchLeads = useCallback(() => {
+    const token = localStorage.getItem('jwt')
+
     fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/lead?${
         query.startDate.day && query.startDate.month && query.startDate.year
@@ -172,7 +175,7 @@ export default function Leads() {
       {
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          authorization: `Bearer ${token}`,
         },
       }
     )
@@ -325,11 +328,7 @@ export default function Leads() {
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
                   top={19.8}
-                  right={
-                    localStorage.getItem('closedAside') === 'false'
-                      ? 30.4
-                      : 33.4
-                  }
+                  right={closedAside === 'false' ? 30.4 : 33.4}
                 />
               )}
 

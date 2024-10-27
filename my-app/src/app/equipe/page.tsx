@@ -57,6 +57,8 @@ export default function Equipe() {
   ])
 
   const fecthEmployees = useCallback(() => {
+    const token = localStorage.getItem('jwt')
+
     fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/employee${
         order ? `?orderBy=${order}` : ''
@@ -64,7 +66,7 @@ export default function Equipe() {
       {
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          authorization: `Bearer ${token}`,
         },
       }
     )
