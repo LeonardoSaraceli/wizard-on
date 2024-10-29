@@ -57,8 +57,7 @@ export default function DeleteLead({
       />
 
       <span className={style.deleteEmployeeSpan}>
-        Esta ação é irreversível, tem certeza que deseja excluir este
-        funcionário?
+        Esta ação é irreversível, tem certeza que deseja excluir este lead?
       </span>
 
       <button className={style.deleteEmployeeBtn} onClick={handleDelete}>

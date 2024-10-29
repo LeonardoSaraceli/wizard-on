@@ -190,15 +190,6 @@ export default function Leads() {
       })
   }, [router])
 
-  const [closedAside, setClosedAside] = useState<boolean | string>('')
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const closedAsideValue = window.localStorage.getItem('closedAside')
-      setClosedAside(closedAsideValue === 'true')
-    }
-  }, [])
-
   useEffect(() => {
     const text = compareDates(query.startDate, query.endDate, date)
     setDateText(text)
@@ -258,15 +249,50 @@ export default function Leads() {
     fetchLeads()
   }, [fetchLeads])
 
+  const [nonQueriedLeads, setNonQueriedLeads] = useState<Lead[]>([])
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwt')
+
+    if (!token) {
+      return
+    }
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/employeeleads?employeeId=${currentEmployeeId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.status === 403 || res.status === 404) {
+          router.push('/')
+          return
+        }
+
+        return res.json()
+      })
+      .then((data) => {
+        if (data) {
+          setNonQueriedLeads(data.leads)
+        }
+      })
+  }, [currentEmployeeId, router])
+
   useEffect(() => {
     const newCities: string[] = []
-    leads.forEach((lead) => {
-      if (!newCities.includes(lead.location)) {
+
+    nonQueriedLeads.forEach((lead) => {
+      if (!newCities.includes(lead.location) && lead.location !== location) {
         newCities.push(lead.location)
       }
     })
+
     setCities(newCities)
-  }, [leads])
+  }, [location, nonQueriedLeads])
 
   const employeeNameEllipsis = (name: string) => {
     if (!name) {
@@ -395,7 +421,11 @@ export default function Leads() {
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
                   top={19.8}
-                  right={closedAside === 'false' ? 30.4 : 33.4}
+                  right={
+                    localStorage.getItem('closedAside') === 'false'
+                      ? 30.4
+                      : 33.4
+                  }
                 />
               )}
 

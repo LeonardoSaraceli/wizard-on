@@ -77,17 +77,6 @@ export default function Leads() {
   const [openEditLead, setOpenEditLead] = useState(false)
   const [openDeleteLead, setOpenDeleteLead] = useState(false)
   const [showBlur, setShowBlur] = useState(false)
-  const [closedAside, setClosedAside] = useState<boolean | string>('')
-  const [token, setToken] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const closedAsideValue = window.localStorage.getItem('closedAside')
-      setClosedAside(closedAsideValue === 'true')
-      const tokenValue = window.localStorage.getItem('jwt')
-      setToken(tokenValue)
-    }
-  }, [closedAside, token])
 
   useEffect(() => {
     if (openViewLead || openEditLead || openDeleteLead) {
@@ -175,6 +164,8 @@ export default function Leads() {
   }, [date, query])
 
   const fetchLeads = useCallback(() => {
+    const token = localStorage.getItem('jwt')
+
     if (!token) {
       return
     }
@@ -223,23 +214,54 @@ export default function Leads() {
     query.startDate.month,
     query.startDate.year,
     router,
-    token,
   ])
 
   useEffect(() => {
     fetchLeads()
   }, [fetchLeads])
 
+  const [nonQueriedLeads, setNonQueriedLeads] = useState<Lead[]>([])
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwt')
+
+    if (!token) {
+      return
+    }
+
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/lead`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 403 || res.status === 404) {
+          router.push('/')
+          return
+        }
+
+        return res.json()
+      })
+      .then((data) => {
+        if (data) {
+          setNonQueriedLeads(data.leads)
+        }
+      })
+  }, [router])
+
   useEffect(() => {
     const newCities: string[] = []
-    leads.forEach((lead) => {
-      if (!newCities.includes(lead.location)) {
+
+    nonQueriedLeads.forEach((lead) => {
+      if (!newCities.includes(lead.location) && lead.location !== location) {
         newCities.push(lead.location)
       }
     })
-    setCities(newCities)
-  }, [leads])
 
+    setCities(newCities)
+  }, [location, nonQueriedLeads])
+  
   const employeeNameEllipsis = (name: string) => {
     if (!name) {
       return
@@ -360,7 +382,11 @@ export default function Leads() {
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
                   top={19.8}
-                  right={closedAside === 'false' ? 30.4 : 33.4}
+                  right={
+                    localStorage.getItem('closedAside') === 'false'
+                      ? 30.4
+                      : 33.4
+                  }
                 />
               )}
 

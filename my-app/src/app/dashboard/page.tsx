@@ -143,18 +143,6 @@ export default function Dashboard() {
 
   const [location, setLocation] = useState('')
 
-  const [closedAside, setClosedAside] = useState<boolean | string>('')
-  const [token, setToken] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const closedAsideValue = window.localStorage.getItem('closedAside')
-      setClosedAside(closedAsideValue === 'true')
-      const tokenValue = window.localStorage.getItem('jwt')
-      setToken(tokenValue)
-    }
-  }, [token])
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     const [key, subKey] = name.split('.') as [
@@ -174,6 +162,8 @@ export default function Dashboard() {
   const [leads, setLeads] = useState<Lead[]>([])
 
   useEffect(() => {
+    const token = localStorage.getItem('jwt')
+
     if (!token) {
       return
     }
@@ -222,19 +212,49 @@ export default function Dashboard() {
           setLeads(data.leads)
         }
       })
-  }, [query.endDate, location, query.startDate, router, token])
+  }, [query.endDate, location, query.startDate, router])
+
+  const [nonQueriedLeads, setNonQueriedLeads] = useState<Lead[]>([])
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwt')
+
+    if (!token) {
+      return
+    }
+
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/lead`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 403 || res.status === 404) {
+          router.push('/')
+          return
+        }
+
+        return res.json()
+      })
+      .then((data) => {
+        if (data) {
+          setNonQueriedLeads(data.leads)
+        }
+      })
+  }, [router])
 
   useEffect(() => {
     const newCities: string[] = []
 
-    leads.forEach((lead) => {
-      if (!newCities.includes(lead.location)) {
+    nonQueriedLeads.forEach((lead) => {
+      if (!newCities.includes(lead.location) && lead.location !== location) {
         newCities.push(lead.location)
       }
     })
 
     setCities(newCities)
-  }, [leads])
+  }, [location, nonQueriedLeads])
 
   const enrolled = leads?.filter((lead) => lead.enroll).length
   const prices = leads
@@ -339,7 +359,7 @@ export default function Dashboard() {
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
                   top={20}
-                  right={closedAside === 'false' ? 31.8 : 34.8}
+                  right={localStorage.getItem('closedAside') === 'false' ? 31.8 : 34.8}
                 />
               )}
 
