@@ -177,7 +177,7 @@ export default function Leads() {
     })
       .then((res) => {
         if (res.status === 403 || res.status === 404) {
-          router.push('/')
+          router.push('/funcionario')
           return
         }
 
@@ -225,7 +225,7 @@ export default function Leads() {
     )
       .then((res) => {
         if (res.status === 403 || res.status === 404) {
-          router.push('/')
+          router.push('/funcionario')
           return
         }
 
@@ -254,7 +254,7 @@ export default function Leads() {
   useEffect(() => {
     const token = localStorage.getItem('jwtlead')
 
-    if (!token) {
+    if (!token || !currentEmployeeId) {
       return
     }
 
@@ -269,7 +269,7 @@ export default function Leads() {
     )
       .then((res) => {
         if (res.status === 403 || res.status === 404) {
-          router.push('/')
+          router.push('/funcionario')
           return
         }
 
