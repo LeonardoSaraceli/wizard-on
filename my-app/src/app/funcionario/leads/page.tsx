@@ -252,7 +252,7 @@ export default function Leads() {
   const [nonQueriedLeads, setNonQueriedLeads] = useState<Lead[]>([])
 
   useEffect(() => {
-    const token = localStorage.getItem('jwt')
+    const token = localStorage.getItem('jwtlead')
 
     if (!token) {
       return
