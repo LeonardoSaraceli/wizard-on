@@ -20,7 +20,7 @@ export const db = new Pool({
   max: Number(PG_MAX),
   idleTimeoutMillis: Number(PG_IDLETIMEOUT),
   connectionTimeoutMillis: Number(PG_CONNECTIONTIMEOUT),
-  // ssl: {
-  //   rejectUnauthorized: false,
-  // },
+  ssl: {
+    rejectUnauthorized: false,
+  },
 })
