@@ -80,6 +80,22 @@ export default function Leads() {
   const [openDeleteLead, setOpenDeleteLead] = useState(false)
   const [showBlur, setShowBlur] = useState(false)
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1279)
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   useEffect(() => {
     if (openViewLead || openEditLead || openDeleteLead) {
       setShowBlur(true)
@@ -301,9 +317,7 @@ export default function Leads() {
   return (
     <main className={style.main}>
       <Aside />
-      {window.innerWidth < 1279 && (
-        <HeaderMobile setShowAsideMobile={setShowAsideMobile} />
-      )}
+      {isMobile && <HeaderMobile setShowAsideMobile={setShowAsideMobile} />}
 
       {showAsideMobile && (
         <AsideMobile setShowAsideMobile={setShowAsideMobile} />
@@ -358,7 +372,7 @@ export default function Leads() {
                   date={date}
                   setOpenDateSelector={setOpenDateSelector}
                   setDateText={setDateText}
-                  top={window.innerWidth >= 1279 ? 20 : 16.8}
+                  top={isMobile ? 16.8 : 20}
                   setQuery={setQuery}
                 />
               )}
@@ -392,13 +406,13 @@ export default function Leads() {
                   cities={cities}
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
-                  top={window.innerWidth >= 1279 ? 20 : 21}
+                  top={isMobile ? 21 : 20}
                   right={
-                    window.innerWidth >= 1279
-                      ? localStorage.getItem('closedAside') === 'false'
-                        ? 31.8
-                        : 34.8
-                      : 'unset'
+                    isMobile
+                      ? 'unset'
+                      : localStorage.getItem('closedAside') === 'false'
+                      ? 31.8
+                      : 34.8
                   }
                 />
               )}
@@ -443,7 +457,7 @@ export default function Leads() {
                 <EnrollSelector
                   setEnrollText={setEnrollText}
                   setOpenEnrollSelector={setOpenEnrollSelector}
-                  top={window.innerWidth >= 1279 ? 24.5 : 29}
+                  top={isMobile ? 29 : 24.5}
                 />
               )}
             </ul>

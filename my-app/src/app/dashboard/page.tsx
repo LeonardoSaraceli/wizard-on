@@ -52,6 +52,22 @@ export default function Dashboard() {
   const [meta, setMeta] = useState(0)
   const [showAsideMobile, setShowAsideMobile] = useState(false)
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1279)
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   const date = useMemo(() => new Date(), [])
 
   const [query, setQuery] = useState<Query>({
@@ -286,9 +302,7 @@ export default function Dashboard() {
   return (
     <main className={style.main}>
       <Aside />
-      {window.innerWidth < 1279 && (
-        <HeaderMobile setShowAsideMobile={setShowAsideMobile} />
-      )}
+      {isMobile && <HeaderMobile setShowAsideMobile={setShowAsideMobile} />}
 
       {showAsideMobile && (
         <AsideMobile setShowAsideMobile={setShowAsideMobile} />
@@ -336,7 +350,7 @@ export default function Dashboard() {
                   date={date}
                   setOpenDateSelector={setOpenDateSelector}
                   setDateText={setDateText}
-                  top={window.innerWidth >= 1279 ? 20 : 16.8}
+                  top={isMobile ? 16.8 : 20}
                   setQuery={setQuery}
                 />
               )}
@@ -368,13 +382,13 @@ export default function Dashboard() {
                   cities={cities}
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
-                  top={window.innerWidth >= 1279 ? 20 : 21.8}
+                  top={isMobile ? 21.8 : 20}
                   right={
-                    window.innerWidth >= 1279
-                      ? localStorage.getItem('closedAside') === 'false'
-                        ? 31.8
-                        : 34.8
-                      : 'unset'
+                    isMobile
+                      ? 'unset'
+                      : localStorage.getItem('closedAside') === 'false'
+                      ? 31.8
+                      : 34.8
                   }
                 />
               )}

@@ -51,6 +51,22 @@ export default function Equipe() {
   const [showDeleteEmployee, setShowDeleteEmployee] = useState(false)
   const [showCreateEmployee, setShowCreateEmployee] = useState(false)
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1279)
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   useEffect(() => {
     if (
       showViewEmployee ||
@@ -118,11 +134,11 @@ export default function Equipe() {
       return ''
     }
 
-    if (name.trim().length >= 30 && window.innerWidth >= 1279) {
+    if (name.trim().length >= 30 && !isMobile) {
       return name.trim().split('').slice(0, 27).join('') + '...'
     }
 
-    if (name.trim().length >= 15 && window.innerWidth < 1279) {
+    if (name.trim().length >= 15 && isMobile) {
       return name.trim().split('').slice(0, 12).join('') + '...'
     }
 
@@ -138,9 +154,7 @@ export default function Equipe() {
   return (
     <main className={style.main}>
       <Aside />
-      {window.innerWidth < 1279 && (
-        <HeaderMobile setShowAsideMobile={setShowAsideMobile} />
-      )}
+      {isMobile && <HeaderMobile setShowAsideMobile={setShowAsideMobile} />}
 
       {showAsideMobile && (
         <AsideMobile setShowAsideMobile={setShowAsideMobile} />
