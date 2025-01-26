@@ -52,6 +52,21 @@ export default function EditLead({
   })
 
   const [currentUrl, setCurrentUrl] = useState('')
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1279)
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   useEffect(() => {
     setCurrentUrl(window.location.href)
@@ -178,7 +193,7 @@ export default function EditLead({
       <form className={style.viewLeadDataEdit} onSubmit={handleSubmit}>
         <ul
           className={style.viewLeadDataUl}
-          style={window.innerWidth >= 1279 ? { gridArea: 'ul1' } : undefined}
+          style={isMobile ? undefined : { gridArea: 'ul1' }}
         >
           <li className={style.viewLeadDataUlLi}>
             <span className={style.viewLeadDataUlLiSpan}>Nome</span>
@@ -275,12 +290,12 @@ export default function EditLead({
 
         <div
           className={style.viewLeadDataBreak}
-          style={window.innerWidth >= 1279 ? { gridArea: 'br' } : undefined}
+          style={isMobile ? undefined : { gridArea: 'br' }}
         ></div>
 
         <ul
           className={style.viewLeadDataUl}
-          style={window.innerWidth >= 1279 ? { gridArea: 'ul2' } : undefined}
+          style={isMobile ? undefined : { gridArea: 'ul2' }}
         >
           <li className={style.viewLeadDataUlLi}>
             <span className={style.viewLeadDataUlLiSpan}>Localidade</span>

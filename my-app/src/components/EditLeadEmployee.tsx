@@ -47,6 +47,22 @@ export default function EditLeadEmployee({
     price: '',
   })
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1279)
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_URL}/api/lead/${currentLeadId}`, {
       headers: {
@@ -166,7 +182,10 @@ export default function EditLeadEmployee({
       </div>
 
       <form className={style.editEmployeeForm} onSubmit={handleSubmit}>
-        <ul className={style.editEmployeeFormUl} style={{ gridArea: 'ul1' }}>
+        <ul
+          className={style.editEmployeeFormUl}
+          style={isMobile ? undefined : { gridArea: 'ul1' }}
+        >
           <li className={style.editEmployeeFormUlLi}>
             <span className={style.funcionariosDivSpan}>Nome</span>
 
@@ -247,10 +266,13 @@ export default function EditLeadEmployee({
 
         <div
           className={style.viewEmployeeDataBreak}
-          style={{ gridArea: 'br' }}
+          style={isMobile ? undefined : { gridArea: 'br' }}
         ></div>
 
-        <ul className={style.editEmployeeFormUl} style={{ gridArea: 'ul2' }}>
+        <ul
+          className={style.editEmployeeFormUl}
+          style={isMobile ? undefined : { gridArea: 'ul2' }}
+        >
           <li className={style.editEmployeeFormUlLi}>
             <span className={style.funcionariosDivSpan}>Localidade</span>
 

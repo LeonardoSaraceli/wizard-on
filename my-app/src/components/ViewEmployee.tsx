@@ -55,6 +55,22 @@ export default function ViewEmployee({
 }: ViewEmployeeProps) {
   const date = useMemo(() => new Date(), [])
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1279)
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   const router = useRouter()
   const [employee, setEmployee] = useState<Employee | null>(null)
   const [leads, setLeads] = useState<Lead[]>([])
@@ -352,7 +368,7 @@ export default function ViewEmployee({
               date={date}
               setOpenDateSelector={setOpenDateSelector}
               setDateText={setDateText}
-              top={window.innerWidth >= 1279 ? 25 : 29.5}
+              top={isMobile ? 29.5 : 25}
               setQuery={setQuery}
             />
           )}
@@ -386,8 +402,8 @@ export default function ViewEmployee({
               cities={cities}
               setLocation={setLocation}
               setOpenLocationSelector={setOpenLocationSelector}
-              top={window.innerWidth >= 1279 ? 25 : 34.25}
-              right={window.innerWidth >= 1279 ? 12.4 : 'unset'}
+              top={isMobile ? 34.25 : 25}
+              right={isMobile ? 'unset' : 12.4}
             />
           )}
 
@@ -429,7 +445,7 @@ export default function ViewEmployee({
             <EnrollSelector
               setEnrollText={setEnrollText}
               setOpenEnrollSelector={setOpenEnrollSelector}
-              top={window.innerWidth >= 1279 ? 0 : 42.25}
+              top={isMobile ? 42.25 : 0}
             />
           )}
         </ul>

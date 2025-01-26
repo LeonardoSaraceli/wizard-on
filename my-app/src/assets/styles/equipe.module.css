@@ -581,6 +581,7 @@
   }
 
   .editEmployeeFormButton {
+    grid-area: unset;
     padding: 1rem;
   }
 
@@ -742,5 +743,28 @@
 
   .deleteEmployeeBtn {
     padding: 1rem;
+  }
+
+  .editEmployee {
+    min-width: 80vw;
+  }
+
+  .editEmployeeForm {
+    display: grid;
+    grid-template: unset;
+    grid-auto-flow: row;
+    grid-auto-rows: max-content;
+    gap: 1rem;
+  }
+
+  .viewEmployeeDataBreak {
+    display: none;
+  }
+
+  .editEmployeeFormFuncionario {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, max-content);
+    gap: 1rem;
   }
 }

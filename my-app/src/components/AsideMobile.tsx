@@ -21,7 +21,7 @@ export default function AsideMobile({ setShowAsideMobile }: AsideMobileProps) {
 
   const handleExit = () => {
     localStorage.clear()
-    router.push('/')
+    router.push(currentUrl.includes('funcionario') ? '/funcionario' : '/')
   }
 
   return (
@@ -32,62 +32,66 @@ export default function AsideMobile({ setShowAsideMobile }: AsideMobileProps) {
       />
 
       <ul className={style.asideMobileNavUl}>
-        <li
-          className={style.asideMobileNavUlLi}
-          onClick={() => router.push('/dashboard')}
-        >
-          <LuLayoutGrid />
+        {currentUrl.includes('funcionario') ? undefined : (
+          <>
+            <li
+              className={style.asideMobileNavUlLi}
+              onClick={() => router.push('/dashboard')}
+            >
+              <LuLayoutGrid />
 
-          <span
-            style={
-              currentUrl.includes('dashboard')
-                ? {
-                    fontWeight: 'bold',
-                  }
-                : undefined
-            }
-          >
-            Dashboard
-          </span>
-        </li>
+              <span
+                style={
+                  currentUrl.includes('dashboard')
+                    ? {
+                        fontWeight: 'bold',
+                      }
+                    : undefined
+                }
+              >
+                Dashboard
+              </span>
+            </li>
 
-        <li
-          className={style.asideMobileNavUlLi}
-          onClick={() => router.push('/equipe')}
-        >
-          <BsPeople />
+            <li
+              className={style.asideMobileNavUlLi}
+              onClick={() => router.push('/equipe')}
+            >
+              <BsPeople />
 
-          <span
-            style={
-              currentUrl.includes('equipe')
-                ? {
-                    fontWeight: 'bold',
-                  }
-                : undefined
-            }
-          >
-            Equipe
-          </span>
-        </li>
+              <span
+                style={
+                  currentUrl.includes('equipe')
+                    ? {
+                        fontWeight: 'bold',
+                      }
+                    : undefined
+                }
+              >
+                Equipe
+              </span>
+            </li>
 
-        <li
-          className={style.asideMobileNavUlLi}
-          onClick={() => router.push('/leads')}
-        >
-          <IoFunnelOutline />
+            <li
+              className={style.asideMobileNavUlLi}
+              onClick={() => router.push('/leads')}
+            >
+              <IoFunnelOutline />
 
-          <span
-            style={
-              currentUrl.includes('leads')
-                ? {
-                    fontWeight: 'bold',
-                  }
-                : undefined
-            }
-          >
-            Leads
-          </span>
-        </li>
+              <span
+                style={
+                  currentUrl.includes('leads')
+                    ? {
+                        fontWeight: 'bold',
+                      }
+                    : undefined
+                }
+              >
+                Leads
+              </span>
+            </li>
+          </>
+        )}
 
         <li className={style.asideMobileNavUlLi} onClick={() => handleExit()}>
           <IoPower />

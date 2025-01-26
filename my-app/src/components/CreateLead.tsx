@@ -1,5 +1,5 @@
 import { FaPlus } from 'react-icons/fa6'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import style from '../assets/styles/equipe.module.css'
 import { useRouter } from 'next/navigation'
 
@@ -44,6 +44,22 @@ export default function CreateLead({
       [name]: newValue,
     })
   }
+
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1279)
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -97,7 +113,10 @@ export default function CreateLead({
       </div>
 
       <form className={style.editEmployeeForm} onSubmit={handleSubmit}>
-        <ul className={style.editEmployeeFormUl} style={{ gridArea: 'ul1' }}>
+        <ul
+          className={style.editEmployeeFormUl}
+          style={isMobile ? undefined : { gridArea: 'ul1' }}
+        >
           <li className={style.editEmployeeFormUlLi}>
             <span className={style.funcionariosDivSpan}>Nome</span>
 
@@ -178,10 +197,13 @@ export default function CreateLead({
 
         <div
           className={style.viewEmployeeDataBreak}
-          style={{ gridArea: 'br' }}
+          style={isMobile ? undefined : { gridArea: 'br' }}
         ></div>
 
-        <ul className={style.editEmployeeFormUl} style={{ gridArea: 'ul2' }}>
+        <ul
+          className={style.editEmployeeFormUl}
+          style={isMobile ? undefined : { gridArea: 'ul2' }}
+        >
           <li className={style.editEmployeeFormUlLi}>
             <span className={style.funcionariosDivSpan}>Localidade</span>
 

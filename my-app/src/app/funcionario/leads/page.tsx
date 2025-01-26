@@ -28,6 +28,8 @@ const EditLeadEmployee = dynamic(
   }
 )
 import dynamic from 'next/dynamic'
+import HeaderMobile from '@/components/HeaderMobile'
+import AsideMobile from '@/components/AsideMobile'
 const ViewLeadEmployee = dynamic(
   () => import('@/components/ViewLeadEmployee'),
   {
@@ -87,6 +89,22 @@ export default function Leads() {
   const [showBlur, setShowBlur] = useState(false)
   const [currentEmployeeId, setCurrentEmployeeId] = useState('')
   const [showCreateEmployee, setShowCreateEmployee] = useState(false)
+
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1279)
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   useEffect(() => {
     if (showCreateEmployee || openViewLead || openEditLead) {
@@ -326,9 +344,16 @@ export default function Leads() {
     lead.name.trim().toLowerCase().includes(search.trim().toLowerCase())
   )
 
+  const [showAsideMobile, setShowAsideMobile] = useState(false)
+
   return (
     <main className={style.main}>
       <AsideFuncionario />
+      {isMobile && <HeaderMobile setShowAsideMobile={setShowAsideMobile} />}
+
+      {showAsideMobile && (
+        <AsideMobile setShowAsideMobile={setShowAsideMobile} />
+      )}
 
       <section className={style.section}>
         <Header />
@@ -386,7 +411,7 @@ export default function Leads() {
                   date={date}
                   setOpenDateSelector={setOpenDateSelector}
                   setDateText={setDateText}
-                  top={19.8}
+                  top={isMobile ? 16.8 : 20}
                   setQuery={setQuery}
                 />
               )}
@@ -420,11 +445,13 @@ export default function Leads() {
                   cities={cities}
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
-                  top={19.8}
+                  top={isMobile ? 21 : 20}
                   right={
-                    localStorage.getItem('closedAside') === 'false'
-                      ? 30.4
-                      : 33.4
+                    isMobile
+                      ? 'unset'
+                      : localStorage.getItem('closedAside') === 'false'
+                      ? 31.8
+                      : 34.8
                   }
                 />
               )}
@@ -469,7 +496,7 @@ export default function Leads() {
                 <EnrollSelector
                   setEnrollText={setEnrollText}
                   setOpenEnrollSelector={setOpenEnrollSelector}
-                  top={24.5}
+                  top={isMobile ? 29 : 24.5}
                 />
               )}
             </ul>
