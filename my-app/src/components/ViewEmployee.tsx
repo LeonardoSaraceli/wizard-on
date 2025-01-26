@@ -352,7 +352,7 @@ export default function ViewEmployee({
               date={date}
               setOpenDateSelector={setOpenDateSelector}
               setDateText={setDateText}
-              top={25}
+              top={window.innerWidth >= 1279 ? 25 : 29.5}
               setQuery={setQuery}
             />
           )}
@@ -386,8 +386,8 @@ export default function ViewEmployee({
               cities={cities}
               setLocation={setLocation}
               setOpenLocationSelector={setOpenLocationSelector}
-              top={25}
-              right={12.4}
+              top={window.innerWidth >= 1279 ? 25 : 34.25}
+              right={window.innerWidth >= 1279 ? 12.4 : 'unset'}
             />
           )}
 
@@ -429,7 +429,7 @@ export default function ViewEmployee({
             <EnrollSelector
               setEnrollText={setEnrollText}
               setOpenEnrollSelector={setOpenEnrollSelector}
-              top={0}
+              top={window.innerWidth >= 1279 ? 0 : 42.25}
             />
           )}
         </ul>

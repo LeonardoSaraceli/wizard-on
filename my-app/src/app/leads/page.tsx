@@ -22,6 +22,8 @@ const DeleteLead = dynamic(() => import('@/components/DeleteLead'), {
   ssr: false,
 })
 import dynamic from 'next/dynamic'
+import HeaderMobile from '@/components/HeaderMobile'
+import AsideMobile from '@/components/AsideMobile'
 const Aside = dynamic(() => import('@/components/Aside'), {
   ssr: false,
 })
@@ -261,7 +263,7 @@ export default function Leads() {
 
     setCities(newCities)
   }, [location, nonQueriedLeads])
-  
+
   const employeeNameEllipsis = (name: string) => {
     if (!name) {
       return
@@ -294,9 +296,18 @@ export default function Leads() {
     lead.name.trim().toLowerCase().includes(search.trim().toLowerCase())
   )
 
+  const [showAsideMobile, setShowAsideMobile] = useState(false)
+
   return (
     <main className={style.main}>
       <Aside />
+      {window.innerWidth < 1279 && (
+        <HeaderMobile setShowAsideMobile={setShowAsideMobile} />
+      )}
+
+      {showAsideMobile && (
+        <AsideMobile setShowAsideMobile={setShowAsideMobile} />
+      )}
 
       <section className={style.section}>
         <Header />
@@ -347,7 +358,7 @@ export default function Leads() {
                   date={date}
                   setOpenDateSelector={setOpenDateSelector}
                   setDateText={setDateText}
-                  top={19.8}
+                  top={window.innerWidth >= 1279 ? 20 : 16.8}
                   setQuery={setQuery}
                 />
               )}
@@ -381,11 +392,13 @@ export default function Leads() {
                   cities={cities}
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
-                  top={19.8}
+                  top={window.innerWidth >= 1279 ? 20 : 21}
                   right={
-                    localStorage.getItem('closedAside') === 'false'
-                      ? 30.4
-                      : 33.4
+                    window.innerWidth >= 1279
+                      ? localStorage.getItem('closedAside') === 'false'
+                        ? 31.8
+                        : 34.8
+                      : 'unset'
                   }
                 />
               )}
@@ -430,7 +443,7 @@ export default function Leads() {
                 <EnrollSelector
                   setEnrollText={setEnrollText}
                   setOpenEnrollSelector={setOpenEnrollSelector}
-                  top={24.5}
+                  top={window.innerWidth >= 1279 ? 24.5 : 29}
                 />
               )}
             </ul>

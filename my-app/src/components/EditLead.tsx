@@ -176,7 +176,10 @@ export default function EditLead({
       </div>
 
       <form className={style.viewLeadDataEdit} onSubmit={handleSubmit}>
-        <ul className={style.viewLeadDataUl} style={{ gridArea: 'ul1' }}>
+        <ul
+          className={style.viewLeadDataUl}
+          style={window.innerWidth >= 1279 ? { gridArea: 'ul1' } : undefined}
+        >
           <li className={style.viewLeadDataUlLi}>
             <span className={style.viewLeadDataUlLiSpan}>Nome</span>
 
@@ -272,10 +275,13 @@ export default function EditLead({
 
         <div
           className={style.viewLeadDataBreak}
-          style={{ gridArea: 'br' }}
+          style={window.innerWidth >= 1279 ? { gridArea: 'br' } : undefined}
         ></div>
 
-        <ul className={style.viewLeadDataUl} style={{ gridArea: 'ul2' }}>
+        <ul
+          className={style.viewLeadDataUl}
+          style={window.innerWidth >= 1279 ? { gridArea: 'ul2' } : undefined}
+        >
           <li className={style.viewLeadDataUlLi}>
             <span className={style.viewLeadDataUlLiSpan}>Localidade</span>
 

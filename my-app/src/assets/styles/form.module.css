@@ -105,3 +105,57 @@
 .errorMessage {
   font-weight: 500;
 }
+
+@media screen and (max-width: 320px) {
+  .input {
+    width: 180px;
+  }
+
+  .img {
+    width: 180px;
+  }
+
+  .form {
+    padding: 1rem;
+  }
+
+  .btn {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 379px) and (min-width: 321px) {
+  .input {
+    width: 230px;
+  }
+
+  .img {
+    width: 230px;
+  }
+
+  .form {
+    padding: 1rem;
+  }
+
+  .btn {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 1279px) and (min-width: 380px) {
+  .input {
+    width: 280px;
+  }
+
+  .img {
+    width: 280px;
+  }
+
+  .form {
+    padding: 1rem;
+  }
+
+  .btn {
+    font-size: 16px;
+  }
+}

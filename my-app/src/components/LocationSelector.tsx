@@ -7,7 +7,7 @@ interface LocationSelectorProps {
   setLocation: (location: string) => void
   setOpenLocationSelector: (open: boolean) => void
   top: number
-  right: number
+  right: number | string
 }
 
 export default function LocationSelector({
@@ -27,7 +27,11 @@ export default function LocationSelector({
     <div
       className={style.locationSelector}
       style={
-        top && right ? { top: `${top}rem`, right: `${right}rem` } : undefined
+        top && right && typeof right !== 'string'
+          ? { top: `${top}rem`, right: `${right}rem` }
+          : typeof right === 'string'
+          ? { top: `${top}rem`, right: `${right}` }
+          : undefined
       }
     >
       <div className={style.locationSelectorDiv}>

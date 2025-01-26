@@ -95,7 +95,6 @@
 .funcionariosSearch {
   display: grid;
   grid-template-columns: repeat(2, max-content);
-  justify-content: space-between;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   gap: 0.5rem;
@@ -542,4 +541,206 @@
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1279px) {
+  .main {
+    grid-template-columns: none;
+    grid-template-rows: max-content 1fr;
+  }
+
+  .funcionariosFilter {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, max-content);
+  }
+
+  .funcionariosSpan {
+    font-size: 21px;
+  }
+
+  .funcionariosAdd {
+    width: 20px;
+    height: 20px;
+  }
+
+  .orderByFilter {
+    top: 16.8rem;
+  }
+
+  .editEmployeeFormUlLiInput {
+    padding: 0.5rem;
+    font-size: 16px;
+    min-width: 5rem;
+  }
+
+  .editEmployee {
+    padding: 1rem;
+    max-height: 80vh;
+    max-width: 350px;
+    gap: 2rem;
+  }
+
+  .editEmployeeFormButton {
+    padding: 1rem;
+  }
+
+  .funcionariosUlLiDivH1 {
+    font-size: 21px;
+  }
+
+  .funcionariosUlLi {
+    gap: 1rem;
+  }
+
+  .funcionariosUlLiDivSvg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .funcionariosUlLiDiv {
+    gap: 1rem;
+  }
+
+  .viewEmployee {
+    max-width: 80vh;
+    max-height: 80vh;
+  }
+
+  .viewEmployeeExit {
+    width: 18px;
+    height: 18px;
+  }
+
+  .viewEmployeeData {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, max-content);
+  }
+
+  .viewEmployeeDataDiv {
+    gap: 1rem;
+  }
+
+  .viewEmployeeDataDivSpan {
+    font-size: 21px;
+  }
+
+  .viewEmployeeDataDivNameDiv {
+    display: grid;
+    grid-template-rows: repeat(2, max-content);
+    gap: 0.25rem;
+  }
+
+  .viewEmployeeDataDivNameDivP {
+    font-size: 18px;
+  }
+
+  .viewEmployeeDataBreak {
+    height: 1px;
+    width: 100%;
+  }
+
+  .viewEmployeeDataPersonalInfo {
+    gap: 1rem;
+  }
+
+  .viewEmployeeDataPersonalInfoDiv {
+    display: grid;
+    grid-template-rows: repeat(2, max-content);
+    gap: 0.25rem;
+  }
+
+  .viewEmployeeDataPersonalInfoDivPassword {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .viewEmployeeDataPersonalInfoDivPasswordSvg {
+    cursor: pointer;
+    color: #a0a0a0;
+    width: 20px;
+    height: 20px;
+  }
+
+  .viewEmployeeLeads {
+    gap: 1rem;
+  }
+
+  .viewEmployeeLeadsUl {
+    grid-template-columns: 1fr;
+    grid-auto-rows: max-content;
+    grid-auto-flow: row;
+  }
+
+  .viewEmployeeLeadsUlLi {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: white;
+    align-items: center;
+    cursor: pointer;
+    gap: 2rem;
+  }
+
+  .viewEmployeeLeadsUlLiDiv {
+    display: grid;
+    grid-template-rows: repeat(2, max-content);
+    gap: 0.25rem;
+  }
+
+  .viewEmployeeLeadsUlLiDivInput {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 0.25rem;
+    align-items: center;
+  }
+
+  .viewEmployeeLeadsUlLiDivInputSvg {
+    color: #a0a0a0;
+  }
+
+  .viewEmployeeLeadsResults {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, max-content);
+    gap: 1rem;
+  }
+
+  .viewEmployeeLeadsResultsUl {
+    grid-template-columns: max-content;
+    grid-template-rows: repeat(3, max-content);
+    gap: 0.5rem;
+  }
+
+  .viewEmployeeLeadsListLi,
+  .viewEmployeeLeadsListActions {
+    gap: 1rem;
+  }
+
+  .viewEmployeeLeadsListH1 {
+    font-size: 21px;
+  }
+
+  .viewEmployeeLeadsListActionsEnroll {
+    width: 14px;
+    height: 14px;
+  }
+
+  .deleteEmployee {
+    gap: 1rem;
+    padding: 1rem;
+    max-width: 80vh;
+    margin: 0 2rem;
+  }
+
+  .deleteEmployeeSpan {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .deleteEmployeeBtn {
+    padding: 1rem;
+  }
 }

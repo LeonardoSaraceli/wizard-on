@@ -19,6 +19,8 @@ const Aside = dynamic(() => import('@/components/Aside'), {
 })
 import Header from '@/components/Header'
 import dynamic from 'next/dynamic'
+import HeaderMobile from '@/components/HeaderMobile'
+import AsideMobile from '@/components/AsideMobile'
 
 interface Lead {
   location: string
@@ -48,6 +50,7 @@ export default function Dashboard() {
   const [cities, setCities] = useState<string[]>([])
   const [dateText, setDateText] = useState('Este mês')
   const [meta, setMeta] = useState(0)
+  const [showAsideMobile, setShowAsideMobile] = useState(false)
 
   const date = useMemo(() => new Date(), [])
 
@@ -283,6 +286,13 @@ export default function Dashboard() {
   return (
     <main className={style.main}>
       <Aside />
+      {window.innerWidth < 1279 && (
+        <HeaderMobile setShowAsideMobile={setShowAsideMobile} />
+      )}
+
+      {showAsideMobile && (
+        <AsideMobile setShowAsideMobile={setShowAsideMobile} />
+      )}
 
       <section className={style.section}>
         <Header />
@@ -326,7 +336,7 @@ export default function Dashboard() {
                   date={date}
                   setOpenDateSelector={setOpenDateSelector}
                   setDateText={setDateText}
-                  top={20}
+                  top={window.innerWidth >= 1279 ? 20 : 16.8}
                   setQuery={setQuery}
                 />
               )}
@@ -358,8 +368,14 @@ export default function Dashboard() {
                   cities={cities}
                   setLocation={setLocation}
                   setOpenLocationSelector={setOpenLocationSelector}
-                  top={20}
-                  right={localStorage.getItem('closedAside') === 'false' ? 31.8 : 34.8}
+                  top={window.innerWidth >= 1279 ? 20 : 21.8}
+                  right={
+                    window.innerWidth >= 1279
+                      ? localStorage.getItem('closedAside') === 'false'
+                        ? 31.8
+                        : 34.8
+                      : 'unset'
+                  }
                 />
               )}
 

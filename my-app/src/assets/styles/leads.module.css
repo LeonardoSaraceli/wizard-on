@@ -132,3 +132,79 @@
   font-weight: 500;
   cursor: pointer;
 }
+
+@media screen and (max-width: 1279px) {
+  .aside,
+  .header {
+    display: none;
+  }
+
+  .viewLead {
+    max-height: 80vh;
+    max-width: 80vh;
+  }
+
+  .viewLeadDivSpan {
+    font-size: 21px;
+  }
+
+  .viewLeadDivExit {
+    width: 18px;
+    height: 18px;
+  }
+
+  .viewLeadData {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, max-content);
+    gap: 1rem;
+  }
+
+  .viewLeadDataEdit {
+    grid-template: unset;
+    grid-auto-flow: row;
+    grid-auto-rows: max-content;
+    gap: 1rem;
+  }
+
+  .viewLeadDataUl {
+    grid-template-rows: unset;
+    grid-auto-flow: row;
+    grid-auto-rows: max-content;
+    gap: 1rem;
+    list-style-type: none;
+  }
+
+  .viewLeadDataUlLi {
+    display: grid;
+    grid-template-rows: repeat(2, max-content);
+    gap: 0.5rem;
+  }
+
+  .viewLeadDataUlLiSpan {
+    font-size: 14px;
+    color: #a0a0a0;
+  }
+
+  .viewLeadDataUlLiInput {
+    font-size: 18px;
+    min-width: 20rem;
+  }
+
+  .viewLeadDataUlLiInputEdit {
+    font-size: 18px;
+    min-width: 20rem;
+  }
+
+  .viewLeadDataBreak {
+    display: none;
+  }
+
+  .viewLeadDataInput {
+    font-size: 21px;
+  }
+
+  .editLeadFormButton {
+    grid-area: unset;
+    padding: 1rem;
+  }
+}

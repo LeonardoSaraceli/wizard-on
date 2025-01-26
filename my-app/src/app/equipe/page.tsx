@@ -28,6 +28,8 @@ const CreateEmployee = dynamic(() => import('@/components/CreateEmployee'), {
   ssr: false,
 })
 import dynamic from 'next/dynamic'
+import HeaderMobile from '@/components/HeaderMobile'
+import AsideMobile from '@/components/AsideMobile'
 
 interface Employee {
   id: number
@@ -116,8 +118,12 @@ export default function Equipe() {
       return ''
     }
 
-    if (name.trim().length >= 30) {
+    if (name.trim().length >= 30 && window.innerWidth >= 1279) {
       return name.trim().split('').slice(0, 27).join('') + '...'
+    }
+
+    if (name.trim().length >= 15 && window.innerWidth < 1279) {
+      return name.trim().split('').slice(0, 12).join('') + '...'
     }
 
     return name.trim()
@@ -127,9 +133,18 @@ export default function Equipe() {
     employee.name.trim().toLowerCase().includes(search.trim().toLowerCase())
   )
 
+  const [showAsideMobile, setShowAsideMobile] = useState(false)
+
   return (
     <main className={style.main}>
       <Aside />
+      {window.innerWidth < 1279 && (
+        <HeaderMobile setShowAsideMobile={setShowAsideMobile} />
+      )}
+
+      {showAsideMobile && (
+        <AsideMobile setShowAsideMobile={setShowAsideMobile} />
+      )}
 
       <section className={style.section}>
         <Header />

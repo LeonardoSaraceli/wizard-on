@@ -329,3 +329,259 @@
   cursor: pointer;
   font-weight: 500;
 }
+
+.headerMobile {
+  display: grid;
+  justify-content: right;
+  position: sticky;
+  top: 0;
+  padding: 1rem;
+  background-color: #002c4f;
+  color: #f2f4f7;
+  z-index: 4;
+}
+
+.liSvgMobile {
+  width: 20px;
+  height: 20px;
+}
+
+.asideMobile {
+  display: grid;
+  grid-template-rows: max-content 1fr max-content;
+  position: fixed;
+  right: 0;
+  width: 50%;
+  height: 100vh;
+  background-color: #002c4f;
+  color: white;
+  z-index: 5;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 1rem;
+  gap: 2rem;
+}
+
+.exitAsideMobile {
+  width: 20px;
+  height: 20px;
+  color: #f2f4f7;
+  transform: rotate(45deg);
+  justify-self: right;
+}
+
+.asideMobileNavUl {
+  display: grid;
+  grid-template-rows: repeat(4, max-content);
+  gap: 2rem;
+  place-content: center;
+  font-size: 18px;
+}
+
+.asideMobileNavUlLi {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 0.5rem;
+  align-items: center;
+}
+
+@media screen and (max-width: 320px) {
+  .aside,
+  .header {
+    display: none;
+  }
+
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .dashboardSpan {
+    font-size: 18px;
+  }
+
+  .dashboardInputs {
+    grid-template-columns: none;
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  .dashboardData {
+    grid-template-columns: none;
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  .main {
+    grid-template-columns: none;
+    grid-template-rows: max-content 1fr;
+  }
+
+  .data {
+    font-size: 24px;
+  }
+
+  .selectDateMainInputUl {
+    grid-template-columns: none;
+    grid-template-rows: repeat(3, max-content);
+  }
+
+  .selectDateUl {
+    padding: 0.5rem;
+  }
+
+  .selectDateMain {
+    display: grid;
+    grid-template-rows: max-content;
+    padding: 0.5rem;
+  }
+
+  .dashboardDataLi {
+    min-width: 200px;
+    min-height: 200px;
+  }
+
+  .locationSelector {
+    min-width: 14.5rem;
+  }
+
+  .selectDateMainInputSpan {
+    font-size: 16px;
+  }
+
+  .selectDateMainInputLi {
+    padding: 0.15rem;
+    border: 1px solid;
+  }
+
+  .selectDateMainDiv {
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 379px) and (min-width: 321px) {
+  .aside,
+  .header {
+    display: none;
+  }
+
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .dashboardSpan {
+    font-size: 21px;
+  }
+
+  .dashboardInputs {
+    grid-template-columns: none;
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  .dashboardData {
+    grid-template-columns: none;
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  .main {
+    grid-template-columns: none;
+    grid-template-rows: max-content 1fr;
+  }
+
+  .data {
+    font-size: 26px;
+  }
+
+  .selectDateMainInputUl {
+    grid-template-columns: none;
+    grid-template-rows: repeat(3, max-content);
+  }
+
+  .selectDateUl {
+    padding: 0.5rem;
+  }
+
+  .selectDateMain {
+    display: grid;
+    grid-template-rows: max-content;
+    padding: 0.5rem;
+  }
+
+  .dashboardDataLi {
+    min-width: 250px;
+    min-height: 250px;
+  }
+
+  .locationSelector {
+    min-width: 16.5rem;
+  }
+
+  .selectDateMainInputSpan {
+    font-size: 16px;
+  }
+
+  .selectDateMainInputLi {
+    padding: 0.25rem;
+    border: 1px solid;
+  }
+
+  .selectDateMainDiv {
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 1279px) and (min-width: 380px) {
+  .aside,
+  .header {
+    display: none;
+  }
+
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .dashboardSpan {
+    font-size: 21px;
+  }
+
+  .dashboardInputs {
+    grid-template-columns: none;
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  .dashboardData {
+    grid-template-columns: none;
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  .main {
+    grid-template-columns: none;
+    grid-template-rows: max-content 1fr;
+  }
+
+  .data {
+    font-size: 28px;
+  }
+
+  .selectDateMainInputUl {
+    grid-template-columns: none;
+    grid-template-rows: repeat(3, max-content);
+  }
+
+  .selectDateUl {
+    padding: 0.5rem;
+  }
+
+  .selectDateMain {
+    display: grid;
+    grid-template-rows: max-content;
+    padding: 0.5rem;
+  }
+
+  .locationSelector {
+    max-height: 400px;
+    max-width: 300px;
+    overflow: auto;
+    min-width: 18.5rem;
+  }
+
+  .selectDateMainInputSpan {
+    font-size: 18px;
+  }
+}
