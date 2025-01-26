@@ -107,10 +107,6 @@
 }
 
 @media screen and (max-width: 320px) {
-  .input {
-    width: 180px;
-  }
-
   .img {
     width: 180px;
   }
@@ -125,10 +121,6 @@
 }
 
 @media screen and (max-width: 379px) and (min-width: 321px) {
-  .input {
-    width: 230px;
-  }
-
   .img {
     width: 230px;
   }
@@ -143,10 +135,6 @@
 }
 
 @media screen and (max-width: 1279px) and (min-width: 380px) {
-  .input {
-    width: 280px;
-  }
-
   .img {
     width: 280px;
   }
@@ -157,5 +145,25 @@
 
   .btn {
     font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 1279px) {
+  .input {
+    width: 100%;
+  }
+
+  .mainFuncionario {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, max-content);
+  }
+
+  .mainFuncionarioDiv {
+    text-align: center;
+    justify-items: center;
+  }
+
+  .mainFuncionarioDivSpan {
+    font-size: 21px;
   }
 }
