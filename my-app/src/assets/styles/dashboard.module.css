@@ -289,6 +289,8 @@
   right: 31.8rem;
   position: absolute;
   min-width: 20rem;
+  max-height: 20rem;
+  overflow: auto;
 }
 
 .locationSelectorDiv {
@@ -583,5 +585,12 @@
 
   .selectDateMainInputSpan {
     font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 1279px) {
+  .locationSelector {
+    max-height: 10rem;
+    max-width: 10rem;
   }
 }
