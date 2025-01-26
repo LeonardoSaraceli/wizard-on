@@ -20,3 +20,7 @@ li,
 a {
   white-space: normal;
 }
+
+input {
+  background-color: transparent;
+}
